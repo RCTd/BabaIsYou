@@ -107,6 +107,10 @@ bool object::pushnext(int dir)
 			succes = Map::objmap[j][i - 1]->move(dir);
 		break;
 	}
+	a = 2;
+	ismov = true;
+	setDirection(dir);
+	changeTexture(dir, getStep());
 	if (!succes||!move(dir))
 		return false;
 	return true;
@@ -127,16 +131,14 @@ void object::render()
 }
 bool object::move(int dir)
 {
-	a = 2;
-	ismov = true;
-	setDirection(dir);
-	changeTexture(dir, getStep());
+	int i = x / 24;
+	int j = y / 24;
 	switch (dir)
 	{
 	case 8:
-		if (getY() > 0)
+		if (j>0)
 		{
-			start(dir);
+			Map::objmap[y / 24][x / 24]->me->remove(this);
 			Map::objmap[y / 24 - 1][x / 24]->me->push_front(this);
 			decY();
 		}
@@ -144,9 +146,9 @@ bool object::move(int dir)
 			return false;
 		break;
 	case 0:
-		if (getX() < 24 * 27)
+		if (i<27)
 		{
-			start(dir);
+			Map::objmap[y / 24][x / 24]->me->remove(this);
 			Map::objmap[y / 24][x / 24 + 1]->me->push_front(this);
 			incX();
 		}
@@ -154,9 +156,9 @@ bool object::move(int dir)
 			return false;
 		break;
 	case 24:
-		if (getY() < 24 * 15)
+		if (j<15)
 		{
-			start(dir);
+			Map::objmap[y / 24][x / 24]->me->remove(this);
 			Map::objmap[y / 24 + 1][x / 24]->me->push_front(this);
 			incY();
 		}
@@ -164,9 +166,9 @@ bool object::move(int dir)
 			return false;
 		break;
 	case 16:
-		if (getX() > 0)
+		if (i>0)
 		{
-			start(dir);
+			Map::objmap[y / 24][x / 24]->me->remove(this);
 			Map::objmap[y / 24][x / 24 - 1]->me->push_front(this);
 			decX();
 		}
@@ -175,10 +177,4 @@ bool object::move(int dir)
 		break;
 	}
 	return true;
-}
-
-void object::start(int dir)
-{
-	Map::objmap[y / 24][x / 24]->me->remove(this);
-	
 }

@@ -41,7 +41,6 @@ public:
 	int getX() { return x; }
 	void update();
 	void render();
-	void start(int dir);
 };
 
 
