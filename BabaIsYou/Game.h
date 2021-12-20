@@ -1,10 +1,9 @@
 #pragma once
-//#include <SDL.h>
-//#include <SDL_image.h>
-#include "Flags.h"
-#include "Map.h"
+#include <SDL.h>
+#include <SDL_image.h>
 
-class Game :public flags, public Map {
+
+class Game {
 private:
 	bool isRunning = false;
 	int cnt = 0;
@@ -12,12 +11,10 @@ private:
 	SDL_Window* window;
 	SDL_Event event;
 public:
-	object* player;
 
 	static SDL_Renderer* renderer;
-	Game() :window(NULL), event({ 0 }) {
-		player = nullptr;
-	}
+	Game() :window(NULL), event({ 0 }) {}
+	//functii
 	void init(const char* Windowtitle, int x, int y, int w, int h);
 	void update();
 	void events();

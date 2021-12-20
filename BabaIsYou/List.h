@@ -2,16 +2,19 @@
 #include "Object.h"
 #include <list>
 
-class List
+class You
 {
-	//private:
+private:
+	std::list<object*> me;
+	int nobj = 0;
+	int dir;
 public:
-	std::list<object*>* me;
-public:
-	List();
-	~List();
-	void render();
+	You();
+	~You();
 	void addObj(object* o);
-	void update();
-	void move(int);
 };
+
+You::You()
+{
+
+}

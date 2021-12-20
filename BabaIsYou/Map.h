@@ -1,15 +1,21 @@
 #pragma once
-#include"List.h"
+#include "Game.h"
 
-class Map :public List
+class Map
 {
 public:
 	Map();
 	~Map();
 
 	void LoadMap(int arr[16][28]);
-	static List* objmap[16][28];
-protected:
+	void DrawMap();
+
+private:
 	SDL_Rect src, dest;
-	List* world;
+
+	SDL_Texture* dirt;
+	SDL_Texture* grass;
+	SDL_Texture* water;
+
+	int map[28][16];
 };
