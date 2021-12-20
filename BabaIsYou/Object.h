@@ -28,7 +28,7 @@ public:
 	object(const char* name, int x, int y);
 	object(const char* name, int x, int y, int dir);
 	~object();
-	void move(int dir);
+	bool move(int dir);
 	void changeTexture(int dir, int step);
 	void setDirection(int dir) { direction = dir; }
 	void incX() { x += framespeed; }
@@ -41,8 +41,7 @@ public:
 	int getX() { return x; }
 	void update();
 	void render();
-
-
+	void start(int dir);
 };
 
 
@@ -71,20 +70,19 @@ neighbor:
 	d-l-u:	14
 	all:	15
 
-		  10
-		7  7  7
-	14  6  2  3 11
-  5 14  4  0  1 11  5
-	14 12  8  9 11
-	   13 13 13
-		  10
+	 	     10
+		  7   7   7 
+	 14   6   2   3  11
+  5  14   4   0   1  11  5
+	 14  12   8   9  11
+	     13  13  13
+		     10 
 
 with direction:
 	baba
 	keke
 	me
 
-name=="brick"||name=="cliff"||name=="cloud"||name=="fence"||name=="grass"||name=="hedge"||name=="ice"||name=="wall"||name=="water"
 depends on others:
 	belt
 	brick

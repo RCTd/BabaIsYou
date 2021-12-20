@@ -1,6 +1,4 @@
 #pragma once
-//#include <SDL.h>
-//#include <SDL_image.h>
 #include "Flags.h"
 #include "Map.h"
 

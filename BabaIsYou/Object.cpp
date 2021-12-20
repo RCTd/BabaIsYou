@@ -1,4 +1,3 @@
-//#include "Object.h"
 #include"Game.h"
 
 object::object(const char* name, int x, int y)
@@ -86,31 +85,30 @@ void object::update()
 
 bool object::pushnext(int dir)
 {
+	bool succes=true;
 	int i = x / 24;
 	int j = y / 24;
 	switch (dir)
 	{
 	case 8:
-		if (!Map::objmap[j - 1][i]->me->empty())
-			Map::objmap[j - 1][i]->move(dir);
-		move(dir);
+		if (j>0&&!Map::objmap[j - 1][i]->me->empty())
+			succes=(Map::objmap[j - 1][i]->move(dir));
 		break;
 	case 0:
-		if (!Map::objmap[j][i + 1]->me->empty())
-			Map::objmap[j][i + 1]->move(dir);
-		move(dir);
+		if (i<27&&!Map::objmap[j][i + 1]->me->empty())
+			succes = Map::objmap[j][i + 1]->move(dir);
 		break;
 	case 24:
-		if (!Map::objmap[j + 1][i]->me->empty())
-			Map::objmap[j + 1][i]->move(dir);
-		move(dir);
+		if (j<15&&!Map::objmap[j + 1][i]->me->empty())
+			succes = Map::objmap[j + 1][i]->move(dir);
 		break;
 	case 16:
-		if (!Map::objmap[j][i - 1]->me->empty())
-			Map::objmap[j][i - 1]->move(dir);
-		move(dir);
+		if (i>0&&!Map::objmap[j][i - 1]->me->empty())
+			succes = Map::objmap[j][i - 1]->move(dir);
 		break;
 	}
+	if (!succes||!move(dir))
+		return false;
 	return true;
 }
 
@@ -127,10 +125,8 @@ void object::render()
 {
 	SDL_RenderCopy(Game::renderer, objTexture, &srcRect, &destRect);
 }
-void object::move(int dir)
+bool object::move(int dir)
 {
-	Map::objmap[y / 24][x / 24]->me->remove(this);
-	//flags::remove = true;
 	a = 2;
 	ismov = true;
 	setDirection(dir);
@@ -140,30 +136,49 @@ void object::move(int dir)
 	case 8:
 		if (getY() > 0)
 		{
+			start(dir);
 			Map::objmap[y / 24 - 1][x / 24]->me->push_front(this);
 			decY();
 		}
+		else
+			return false;
 		break;
 	case 0:
 		if (getX() < 24 * 27)
 		{
+			start(dir);
 			Map::objmap[y / 24][x / 24 + 1]->me->push_front(this);
 			incX();
 		}
+		else
+			return false;
 		break;
 	case 24:
 		if (getY() < 24 * 15)
 		{
+			start(dir);
 			Map::objmap[y / 24 + 1][x / 24]->me->push_front(this);
 			incY();
 		}
+		else
+			return false;
 		break;
 	case 16:
 		if (getX() > 0)
 		{
+			start(dir);
 			Map::objmap[y / 24][x / 24 - 1]->me->push_front(this);
 			decX();
 		}
+		else
+			return false;
 		break;
 	}
+	return true;
+}
+
+void object::start(int dir)
+{
+	Map::objmap[y / 24][x / 24]->me->remove(this);
+	
 }

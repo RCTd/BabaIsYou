@@ -1,3 +1,4 @@
+#pragma once
 #include <string>
 
 std::string name[1093] = { "baba.0",

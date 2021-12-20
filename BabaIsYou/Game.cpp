@@ -1,10 +1,6 @@
 #include "Game.h"
 #include <fstream>
-//#include <iostream>
-//object* player,*is;
-//List* you;
-//List* objects;
-//Map* map;
+
 SDL_Renderer* Game::renderer = nullptr;
 bool flags::ismoving = false;
 bool flags::andmov = true;

@@ -13,5 +13,5 @@ public:
 	void render();
 	void addObj(object* o);
 	void update();
-	void move(int);
+	bool move(int);
 };

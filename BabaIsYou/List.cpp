@@ -1,5 +1,4 @@
 #include "Game.h"
-#include <cmath>
 
 List::List()
 {
@@ -24,13 +23,15 @@ void List::update()
 	}
 	flags::ismoving = flags::andmov;
 }
-void List::move(int dir)
+bool List::move(int dir)
 {
+	bool succes = true;
 	for (std::list<object*>::iterator it = me->begin(), it1 = it; (!me->empty()) && it != me->end(); it = it1)
 	{
 		++it1;
-		(*it)->pushnext(dir);
+		succes&=(*it)->pushnext(dir);
 	}
+	return succes;
 }
 void List::render()
 {
