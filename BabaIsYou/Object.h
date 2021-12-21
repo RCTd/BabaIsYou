@@ -45,6 +45,7 @@ public:
 
 /*
 D\fr      0   1    2     3  sit
+
 right:    0   1    2     3   31
 up:       8   9   10    11    7
 left:     16  17  18    19   15

@@ -29,7 +29,6 @@ bool List::move(int dir)
 	for (std::list<object*>::iterator it = me->begin(), it1 = it; (!me->empty()) && it != me->end(); it = it1)
 	{
 		++it1;
-		//(*it)->changeTexture(dir, (*it)->getStep());
 		succes&=(*it)->pushnext(dir);
 	}
 	return succes;
