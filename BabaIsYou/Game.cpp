@@ -33,15 +33,17 @@ void Game::init(const char* Windowtitle, int x, int y, int w, int h)
 		SDL_Log("INIT ERROR %s\n", SDL_GetError());
 	}
 	std::ifstream in("Lvl1.txt");
-	int lvl1[16][28];
+	int lvl[16][28];
 	for (int i = 0; i < 16; i++)
 	{
 		for (int j = 0; j < 28; j++) {
-			in >> lvl1[i][j];
+			in >> lvl[i][j];
 		}
 	}
-	LoadMap(lvl1);
+	LoadMap(lvl);
 	player = (*objmap[7][9]->me->begin());
+	//player = (*objmap[11][16]->me->begin());
+
 	player->changeObjColor(255, 20, 150);
 	addObj(player);
 

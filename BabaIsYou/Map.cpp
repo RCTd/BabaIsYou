@@ -37,9 +37,9 @@ void Map::LoadMap(int arr[16][28])
 				objmap[row][column] = new List();
 			if (arr[row][column])
 			{
-				str = name[arr[row][column] - 1093];
+				str = name[arr[row][column]];
 				pos = str.find(".") + 1;
-				dir = atoi(str.substr(pos, 1).c_str());
+				dir = atoi(str.substr(pos, 2).c_str());
 				pos--;
 				str = str.substr(0, pos);
 

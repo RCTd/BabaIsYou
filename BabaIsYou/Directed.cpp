@@ -28,13 +28,18 @@ void Directed::changeTexture(int dir, int step)
 	int d = 0;
 	int i = GetX() / 24;
 	int j = GetY() / 24;
-	
+	if (step<0)
+	{
+		orient = neighbours(i, j, -1);
+		object::changeTexture(orient, 0);
+		return;
+	}
 	switch (dir)
 	{
 	case 8:
-		d = neighbours(i, j - 1,dir);
 		if (j ==0)
 			return;
+		d = neighbours(i, j - 1, dir);
 		if (i > 0)
 		{
 			if (!Map::objmap[j][i - 1]->me->empty())
@@ -54,9 +59,9 @@ void Directed::changeTexture(int dir, int step)
 				Map::objmap[j-2][i]->find(this->name.c_str(), 8);
 		break;
 	case 0:
-		d = neighbours(i + 1, j,dir);
 		if (i==27)
 			return;
+		d = neighbours(i + 1, j, dir);
 		if (j > 0)
 		{
 			if (!Map::objmap[j-1][i]->me->empty())
@@ -76,9 +81,9 @@ void Directed::changeTexture(int dir, int step)
 				Map::objmap[j][i+2]->find(this->name.c_str(), 4);
 		break;
 	case 24:
-		d = neighbours(i, j + 1,dir);
 		if (j ==15)
 			return;
+		d = neighbours(i, j + 1, dir);
 		if (i > 0)
 		{
 			if (!Map::objmap[j][i - 1]->me->empty())
@@ -98,9 +103,9 @@ void Directed::changeTexture(int dir, int step)
 				Map::objmap[j + 2][i]->find(this->name.c_str(), 2);
 		break;
 	case 16:
-		d = neighbours(i - 1, j,dir);
 		if (i == 0)
 			return;
+		d = neighbours(i - 1, j, dir);
 		if (j > 0)
 		{
 			if (!Map::objmap[j - 1][i]->me->empty())

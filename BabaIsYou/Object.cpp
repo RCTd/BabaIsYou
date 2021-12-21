@@ -1,5 +1,5 @@
 #include"Game.h"
-
+#include "Directed.h"
 object::object(const char* name, int x, int y)
 {
 	this->name = name;
@@ -107,16 +107,20 @@ bool object::pushnext(int dir)
 	ismov = true;
 	direction = dir;
 	changeTexture(dir, getStep());
-	if (!succes||!move(dir))
+	if (!succes || !move(dir))
+	{
+		changeTexture(dir, -1);
 		return false;
-	return true;
+	}return true;
 }
 
 void object::changeTexture(int dir, int step)
 {
-	//direction = dir;
-	objTexture = TextureManager::LoadAnimatedTexture(name.c_str(), dir + step);
-	SDL_SetTextureColorMod(objTexture, color.r, color.g, color.b);
+	if (step >=0) 
+	{
+		objTexture = TextureManager::LoadAnimatedTexture(name.c_str(), dir + step);
+		SDL_SetTextureColorMod(objTexture, color.r, color.g, color.b);
+	}
 }
 
 void object::render()
