@@ -5,16 +5,15 @@
 class object {
 private:
 	int x, y;
-	//std::string name;
-	bool isYou = false, hasdir = false;
-	std::string name;
-	//// 0-up 1-right 2-down 3-left 
+	//bool isYou = false;
 	SDL_Texture* objTexture;
 	SDL_Rect srcRect, destRect;
-	int frame = 0, direction = 0, step = 0;
+	int frame = 0, step = 0;
 	SDL_Color color;
 public:
-	int a;
+	std::string name;
+	int a, direction = 0,orient=0;
+	bool hasdir = false;
 	bool ismov = false;
 	void init();
 	void changeObjColor(int red, int green, int blue) {
@@ -24,21 +23,21 @@ public:
 		SDL_SetTextureColorMod(objTexture, red, green, blue);
 	}
 	bool pushnext(int dir);
-	void makeYou(bool a) { isYou = a ? a : !a; }
+	//void makeYou(bool a) { isYou = a ? a : !a; }
 	object(const char* name, int x, int y);
 	object(const char* name, int x, int y, int dir);
 	~object();
 	bool move(int dir);
-	void changeTexture(int dir, int step);
-	void setDirection(int dir) { direction = dir; }
+	virtual void changeTexture(int dir, int step);
 	void incX() { x += framespeed; }
 	void incY() { y += framespeed; }
 	void decX() { x -= framespeed; }
 	void decY() { y -= framespeed; }
+	int GetX() { return x; }
+	int GetY() { return y; }
+	//scap la poli
 	bool hasDir() { return hasdir; }
 	int getStep() { step = (step < 3) ? step + 1 : 0; return step; }
-	int getY() { return y; }
-	int getX() { return x; }
 	void update();
 	void render();
 };
@@ -76,6 +75,9 @@ neighbor:
 	 14  12   8   9  11
 	     13  13  13
 		     10 
+
+     dlur
+	 0000
 
 with direction:
 	baba

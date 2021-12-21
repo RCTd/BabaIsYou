@@ -1,5 +1,8 @@
 #include "Map.h"
 #include "name.h"
+#include "Text.h"
+#include "Walker.h"
+#include "Directed.h"
 
 Map::Map()
 {
@@ -39,8 +42,14 @@ void Map::LoadMap(int arr[16][28])
 				dir = atoi(str.substr(pos, 1).c_str());
 				pos--;
 				str = str.substr(0, pos);
-				obj = new object(str.c_str(), column * 24, row * 24, dir);
-				//objmap[row][column] = new object(str.c_str(), column*24, row * 24,dir);
+
+				if (str == "baba" || str == "keke" || str == "me")
+					obj = new Walker(str.c_str(), column * 24, row * 24, dir);
+				else
+				if(str == "brick" || str == "cliff" || str == "cloud" || str == "fence" || str == "grass" || str == "hedge" || str == "ice" || str == "wall" || str == "water")
+					obj = new Directed(str.c_str(), column * 24, row * 24,dir);
+				else
+					obj = new Text(str.c_str(), column * 24, row * 24);
 				objmap[row][column]->addObj(obj);
 				world->addObj(obj);
 			}

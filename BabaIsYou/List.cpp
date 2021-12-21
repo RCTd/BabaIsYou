@@ -1,5 +1,5 @@
 #include "Game.h"
-
+#include "Directed.h"
 List::List()
 {
 	me = new std::list<object*>;
@@ -29,6 +29,7 @@ bool List::move(int dir)
 	for (std::list<object*>::iterator it = me->begin(), it1 = it; (!me->empty()) && it != me->end(); it = it1)
 	{
 		++it1;
+		//(*it)->changeTexture(dir, (*it)->getStep());
 		succes&=(*it)->pushnext(dir);
 	}
 	return succes;
@@ -37,4 +38,22 @@ void List::render()
 {
 	for (std::list<object*>::iterator it = me->begin(); it != me->end(); ++it)
 		(*it)->render();
+}
+
+bool List::find(const char* name,int sign)
+{
+	for (std::list<object*>::iterator it = me->begin(); it != me->end(); ++it)
+	{
+		if ((*it)->name == name)
+		{
+			if(sign<0)
+				(*it)->orient ^= abs(sign);
+			else
+				(*it)->orient |= sign;
+			(*it)->object::changeTexture((*it)->orient, 0);
+			return true;
+			break;
+		}
+	}
+	return false;
 }

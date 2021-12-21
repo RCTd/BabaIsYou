@@ -3,20 +3,16 @@
 object::object(const char* name, int x, int y)
 {
 	this->name = name;
-	if (name == "baba" || name == "keke" || name == "me")
-		this->hasdir = true;
 	this->x = x;
 	this->y = y;
+	direction = 0;
 	objTexture = TextureManager::LoadAnimatedTexture(name, 0);
 	init();
 }
 object::object(const char* name, int x, int y, int dir)
 {
 	this->name = name;
-	if (this->name == "baba" || this->name == "keke" || this->name == "me"/*||this->name=="brick"||this->name=="cliff"||this->name=="cloud"||this->name=="fence"||this->name=="grass"||this->name=="hedge"||this->name=="ice"||this->name=="wall"||this->name=="water"*/)
-	{
-		this->hasdir = true;
-	}
+	direction = dir;
 	objTexture = TextureManager::LoadAnimatedTexture(name, dir);
 	this->x = x;
 	this->y = y;
@@ -109,7 +105,7 @@ bool object::pushnext(int dir)
 	}
 	a = 2;
 	ismov = true;
-	setDirection(dir);
+	direction = dir;
 	changeTexture(dir, getStep());
 	if (!succes||!move(dir))
 		return false;
@@ -118,11 +114,9 @@ bool object::pushnext(int dir)
 
 void object::changeTexture(int dir, int step)
 {
-	if (hasDir())
-	{
-		objTexture = TextureManager::LoadAnimatedTexture(name.c_str(), dir + step);
-		SDL_SetTextureColorMod(objTexture, color.r, color.g, color.b);
-	}
+	//direction = dir;
+	objTexture = TextureManager::LoadAnimatedTexture(name.c_str(), dir + step);
+	SDL_SetTextureColorMod(objTexture, color.r, color.g, color.b);
 }
 
 void object::render()

@@ -14,4 +14,5 @@ public:
 	void addObj(object* o);
 	void update();
 	bool move(int);
+	bool find(const char* name,int sign);
 };

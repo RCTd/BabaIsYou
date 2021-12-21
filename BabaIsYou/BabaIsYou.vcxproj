@@ -142,21 +142,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Directed.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="List.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="Walker.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Directed.h" />
     <ClInclude Include="Flags.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="name.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="Walker.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Lvl1.txt" />
