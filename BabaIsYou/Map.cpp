@@ -3,6 +3,7 @@
 #include "Text.h"
 #include "Walker.h"
 #include "Directed.h"
+#include "Thing.h"
 
 Map::Map()
 {
@@ -49,7 +50,10 @@ void Map::LoadMap(int arr[16][28])
 				if(str == "brick" || str == "cliff" || str == "cloud" || str == "fence" || str == "grass" || str == "hedge" || str == "ice" || str == "wall" || str == "water")
 					obj = new Directed(str.c_str(), column * 24, row * 24,dir);
 				else
+				if (str.find("text") != std::string::npos)
 					obj = new Text(str.c_str(), column * 24, row * 24);
+				else
+					obj = new Thing(str.c_str(), column * 24, row * 24);
 				objmap[row][column]->addObj(obj);
 				world->addObj(obj);
 			}

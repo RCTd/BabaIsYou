@@ -13,7 +13,8 @@ private:
 public:
 	std::string name;
 	int a, direction = 0,orient=0;
-	bool hasdir = false;
+	bool isPush = false;
+	bool isStop = false;
 	bool ismov = false;
 	void init();
 	void changeObjColor(int red, int green, int blue) {
@@ -35,8 +36,6 @@ public:
 	void decY() { y -= framespeed; }
 	int GetX() { return x; }
 	int GetY() { return y; }
-	//scap la poli
-	bool hasDir() { return hasdir; }
 	int getStep() { step = (step < 3) ? step + 1 : 0; return step; }
 	void update();
 	void render();

@@ -42,6 +42,12 @@
     <ClCompile Include="Directed.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Rules.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Thing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -74,9 +80,15 @@
     <ClInclude Include="Directed.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Thing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Lvl1.txt" />
     <Text Include="Lvl2.txt" />
+    <Text Include="Lvl3.txt" />
+    <Text Include="Lvl4.txt" />
+    <Text Include="Lvl5.txt" />
   </ItemGroup>
 </Project>

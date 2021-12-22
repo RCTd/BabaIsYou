@@ -22,4 +22,7 @@ public:
 	void render();
 	void close();
 	inline bool getRunning() { return isRunning; }
+
+	void stop(const char* name,bool state);
+	void push(const char* name, bool state);
 };

@@ -147,9 +147,11 @@
     <ClCompile Include="List.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Rules.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="Thing.cpp" />
     <ClCompile Include="Walker.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -162,11 +164,15 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="Thing.h" />
     <ClInclude Include="Walker.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Lvl1.txt" />
     <Text Include="Lvl2.txt" />
+    <Text Include="Lvl3.txt" />
+    <Text Include="Lvl4.txt" />
+    <Text Include="Lvl5.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

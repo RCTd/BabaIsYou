@@ -29,7 +29,11 @@ bool List::move(int dir)
 	for (std::list<object*>::iterator it = me->begin(), it1 = it; (!me->empty()) && it != me->end(); it = it1)
 	{
 		++it1;
-		succes&=(*it)->pushnext(dir);
+		if ((*it)->isStop)
+			succes = false;
+		else
+			if((*it)->isPush)
+				succes&=(*it)->pushnext(dir);
 	}
 	return succes;
 }

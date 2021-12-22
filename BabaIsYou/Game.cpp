@@ -47,6 +47,8 @@ void Game::init(const char* Windowtitle, int x, int y, int w, int h)
 	player->changeObjColor(255, 20, 150);
 	addObj(player);
 
+	stop("wall", true);
+	push("baba", true);
 	ismoving = false;
 	andmov = true;
 }
@@ -54,7 +56,6 @@ void Game::init(const char* Windowtitle, int x, int y, int w, int h)
 void Game::update()
 {
 	world->update();
-	//List::update();
 }
 
 void Game::render()
@@ -69,9 +70,6 @@ void Game::render()
 void Game::events()
 {
 	SDL_PollEvent(&event);
-	/*if(remove!=ismoving)
-		std::cout << ismoving << "\n";
-	remove = ismoving;*/
 	switch (event.type)
 	{
 	case SDL_QUIT:

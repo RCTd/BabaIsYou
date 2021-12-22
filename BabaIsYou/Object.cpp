@@ -1,5 +1,4 @@
 #include"Game.h"
-#include "Directed.h"
 object::object(const char* name, int x, int y)
 {
 	this->name = name;
