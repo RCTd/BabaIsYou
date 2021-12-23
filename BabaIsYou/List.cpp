@@ -12,6 +12,7 @@ void List::addObj(object* o)
 {
 	me->push_back(o);
 }
+
 void List::update()
 {
 	flags::andmov = false;
@@ -32,8 +33,8 @@ bool List::move(int dir)
 		if ((*it)->isStop)
 			succes = false;
 		else
-			if((*it)->isPush)
-				succes&=(*it)->pushnext(dir);
+			if((*it)->isPush||((*it)->isYou&&!(*it)->ismov))
+				succes&=(*it)->move(dir);
 	}
 	return succes;
 }

@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <fstream>
 
+object* keke;
 SDL_Renderer* Game::renderer = nullptr;
 bool flags::ismoving = false;
 bool flags::andmov = true;
@@ -41,14 +42,16 @@ void Game::init(const char* Windowtitle, int x, int y, int w, int h)
 		}
 	}
 	LoadMap(lvl);
-	player = (*objmap[7][9]->me->begin());
-	//player = (*objmap[11][16]->me->begin());
+	checkLinks();
 
-	player->changeObjColor(255, 20, 150);
-	addObj(player);
+	keke = new object("keke", 9*24, 6*24, 8);
+	objmap[6][9]->addObj(keke);
+	world->addObj(keke);
 
 	stop("wall", true);
-	push("baba", true);
+	makeYou("baba",true);
+	push("rock", true);
+	makeYou("keke",true);
 	ismoving = false;
 	andmov = true;
 }

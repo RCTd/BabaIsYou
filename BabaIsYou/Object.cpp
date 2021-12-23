@@ -106,7 +106,7 @@ bool object::pushnext(int dir)
 	ismov = true;
 	direction = dir;
 	changeTexture(dir, getStep());
-	if (!succes || !move(dir))
+	if (!succes)
 	{
 		changeTexture(dir, -1);
 		return false;
@@ -130,48 +130,51 @@ bool object::move(int dir)
 {
 	int i = x / 24;
 	int j = y / 24;
-	switch (dir)
-	{
-	case 8:
-		if (j>0)
+	if (pushnext(dir))
+		switch (dir)
 		{
-			Map::objmap[y / 24][x / 24]->me->remove(this);
-			Map::objmap[y / 24 - 1][x / 24]->me->push_front(this);
-			decY();
+		case 8:
+			if (j > 0)
+			{
+				Map::objmap[y / 24][x / 24]->me->remove(this);
+				Map::objmap[y / 24 - 1][x / 24]->me->push_front(this);
+				decY();
+			}
+			else
+				return false;
+			break;
+		case 0:
+			if (i < 27)
+			{
+				Map::objmap[y / 24][x / 24]->me->remove(this);
+				Map::objmap[y / 24][x / 24 + 1]->me->push_front(this);
+				incX();
+			}
+			else
+				return false;
+			break;
+		case 24:
+			if (j < 15)
+			{
+				Map::objmap[y / 24][x / 24]->me->remove(this);
+				Map::objmap[y / 24 + 1][x / 24]->me->push_front(this);
+				incY();
+			}
+			else
+				return false;
+			break;
+		case 16:
+			if (i > 0)
+			{
+				Map::objmap[y / 24][x / 24]->me->remove(this);
+				Map::objmap[y / 24][x / 24 - 1]->me->push_front(this);
+				decX();
+			}
+			else
+				return false;
+			break;
 		}
-		else
-			return false;
-		break;
-	case 0:
-		if (i<27)
-		{
-			Map::objmap[y / 24][x / 24]->me->remove(this);
-			Map::objmap[y / 24][x / 24 + 1]->me->push_front(this);
-			incX();
-		}
-		else
-			return false;
-		break;
-	case 24:
-		if (j<15)
-		{
-			Map::objmap[y / 24][x / 24]->me->remove(this);
-			Map::objmap[y / 24 + 1][x / 24]->me->push_front(this);
-			incY();
-		}
-		else
-			return false;
-		break;
-	case 16:
-		if (i>0)
-		{
-			Map::objmap[y / 24][x / 24]->me->remove(this);
-			Map::objmap[y / 24][x / 24 - 1]->me->push_front(this);
-			decX();
-		}
-		else
-			return false;
-		break;
-	}
+	else
+		return false;
 	return true;
 }

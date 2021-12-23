@@ -13,6 +13,7 @@ private:
 public:
 	std::string name;
 	int a, direction = 0,orient=0;
+	bool isYou = false;
 	bool isPush = false;
 	bool isStop = false;
 	bool ismov = false;

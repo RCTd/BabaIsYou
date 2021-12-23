@@ -10,11 +10,12 @@ private:
 	SDL_Window* window;
 	SDL_Event event;
 public:
-	object* player;
+	//object* player,*keke;
 
 	static SDL_Renderer* renderer;
 	Game() :window(NULL), event({ 0 }) {
-		player = nullptr;
+		/*keke = nullptr;
+		player = nullptr;*/
 	}
 	void init(const char* Windowtitle, int x, int y, int w, int h);
 	void update();
@@ -23,6 +24,11 @@ public:
 	void close();
 	inline bool getRunning() { return isRunning; }
 
+	void Rules();
+	void thisIsthis(const char* name1, const char* name2);
+	void makeYou(const char* name, bool state);
 	void stop(const char* name,bool state);
 	void push(const char* name, bool state);
+	void checkLinks();
+
 };
