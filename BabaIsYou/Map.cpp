@@ -5,6 +5,21 @@
 #include "Directed.h"
 #include "Thing.h"
 
+SDL_Color* hex2sdl(std::string input) {
+
+	if (input[0] == '#')
+		input.erase(0, 1);
+
+	unsigned long value = stoul(input, nullptr, 16);
+
+	SDL_Color color;
+
+	color.a = (value >> 24) & 0xff;
+	color.r = (value >> 16) & 0xff;
+	color.g = (value >> 8) & 0xff;
+	color.b = (value >> 0) & 0xff;
+	return &color;
+}
 Map::Map()
 {
 	world = new List();
@@ -25,8 +40,9 @@ Map::~Map()
 	free(objmap);
 }
 
-void Map::LoadMap(int arr[16][28])
+void Map::LoadMap(int arr[16][28],int color[16][28])
 {
+	SDL_Color* c;
 	object* obj;
 	std::string str;
 	int pos, dir;
@@ -43,9 +59,11 @@ void Map::LoadMap(int arr[16][28])
 				dir = atoi(str.substr(pos, 2).c_str());
 				pos--;
 				str = str.substr(0, pos);
-
-				if (str == "baba" || str == "keke" || str == "me")
+				if(str=="skull"|| str == "ghost" || str == "statue" || str == "belt" || str == "hand"  )
 					obj = new Walker(str.c_str(), column * 24, row * 24, dir);
+				else
+				if (str == "baba" || str == "keke" || str == "me")
+					obj = new object(str.c_str(), column * 24, row * 24, dir);
 				else
 				if(str == "brick" || str == "cliff" || str == "cloud" || str == "fence" || str == "grass" || str == "hedge" || str == "ice" || str == "wall" || str == "water")
 					obj = new Directed(str.c_str(), column * 24, row * 24,dir);
@@ -54,9 +72,13 @@ void Map::LoadMap(int arr[16][28])
 					obj = new Text(str.c_str(), column * 24, row * 24);
 				else
 					obj = new Thing(str.c_str(), column * 24, row * 24);
+
+				c = hex2sdl(hexcolor[color[row][column] - 1094>=0? (color[row][column] - 1094):21]);
+				obj->changeObjColor(c->r, c->g, c->b);
 				objmap[row][column]->addObj(obj);
 				world->addObj(obj);
 			}
 		}
 	}
 }
+

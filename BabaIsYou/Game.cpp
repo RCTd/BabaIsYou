@@ -1,7 +1,7 @@
 #include "Game.h"
 #include <fstream>
 
-object* keke;
+//object* keke;
 SDL_Renderer* Game::renderer = nullptr;
 bool flags::ismoving = false;
 bool flags::andmov = true;
@@ -34,7 +34,7 @@ void Game::init(const char* Windowtitle, int x, int y, int w, int h)
 	{
 		SDL_Log("INIT ERROR %s\n", SDL_GetError());
 	}
-	std::ifstream in("Lvl1.txt");
+	std::ifstream in("Lvl5.txt");
 	int lvl[16][28];
 	for (int i = 0; i < 16; i++)
 	{
@@ -42,17 +42,25 @@ void Game::init(const char* Windowtitle, int x, int y, int w, int h)
 			in >> lvl[i][j];
 		}
 	}
-	LoadMap(lvl);
+	int lvlcolor[16][28];
+	for (int i = 0; i < 16; i++)
+	{
+		for (int j = 0; j < 28; j++) {
+			in >> lvlcolor[i][j];
+		}
+	}
+	LoadMap(lvl,lvlcolor);
 	checkLinks();
 
-	keke = new object("keke", 9*24, 6*24, 8);
+	/*keke = new object("keke", 9*24, 6*24, 8);
 	objmap[6][9]->addObj(keke);
-	world->addObj(keke);
+	world->addObj(keke);*/
 
 	stop("wall", true);
 	makeYou("baba",true);
 	push("rock", true);
-	makeYou("keke",true);
+	push("skull", true);
+	//makeYou("keke",true);
 	ismoving = false;
 	andmov = true;
 }

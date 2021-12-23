@@ -33,7 +33,6 @@ void Game::makeYou(const char* name,bool state)
 		{
 			(*it)->isYou = state;
 			addObj((*it));
-			(*it)->changeObjColor(255, 20, 150);
 		}
 	}
 }
@@ -54,9 +53,13 @@ void Game::thisIsthis(const char* name1, const char* name2)
 		{
 			int x = (*it)->GetX(), y = (*it)->GetY();
 
-			(*it)->name = name2;
-			(*it)->changeTexture(0, -1);
 
 		}
 	}
 }
+
+/*to do:
+ make color, make rules reader,mace thisIsthis
+ 
+ 
+ */
