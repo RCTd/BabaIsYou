@@ -6,4 +6,5 @@ public:
 	static bool andmov;
 	static bool ismoving;
 	static bool remove;
+	static bool rec;
 };

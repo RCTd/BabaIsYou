@@ -80,6 +80,7 @@ void object::update()
 
 bool object::pushnext(int dir)
 {
+	flags::rec = true;
 	bool succes=true;
 	int i = x / 24;
 	int j = y / 24;
@@ -106,6 +107,7 @@ bool object::pushnext(int dir)
 	ismov = true;
 	direction = dir;
 	changeTexture(dir, getStep());
+	flags::rec = false;
 	if (!succes)
 	{
 		changeTexture(dir, -1);

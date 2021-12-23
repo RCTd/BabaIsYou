@@ -6,6 +6,7 @@ SDL_Renderer* Game::renderer = nullptr;
 bool flags::ismoving = false;
 bool flags::andmov = true;
 bool flags::remove = false;
+bool flags::rec = false;
 List* Map::objmap[16][28] = { nullptr };
 void Game::init(const char* Windowtitle, int x, int y, int w, int h)
 {

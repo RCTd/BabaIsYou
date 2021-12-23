@@ -33,7 +33,7 @@ bool List::move(int dir)
 		if ((*it)->isStop)
 			succes = false;
 		else
-			if((*it)->isPush||((*it)->isYou&&!(*it)->ismov))
+			if((*it)->isPush||((*it)->isYou&&!flags::rec))
 				succes&=(*it)->move(dir);
 	}
 	return succes;
