@@ -7,4 +7,5 @@ public:
 	static bool ismoving;
 	static bool remove;
 	static bool rec;
+	static bool tex;
 };

@@ -27,6 +27,7 @@ public:
 	void Rules();
 	void thisIsthis(const char* name1, const char* name2);
 	void makeYou(const char* name, bool state);
+	void forground();
 	void stop(const char* name,bool state);
 	void push(const char* name, bool state);
 	void checkLinks();

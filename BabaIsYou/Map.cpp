@@ -23,6 +23,7 @@ SDL_Color* hex2sdl(std::string input) {
 Map::Map()
 {
 	world = new List();
+	direct = new List();
 
 	src.x = 0;
 	src.y = 0;
@@ -65,8 +66,11 @@ void Map::LoadMap(int arr[16][28],int color[16][28])
 				if (str == "baba" || str == "keke" || str == "me")
 					obj = new object(str.c_str(), column * 24, row * 24, dir);
 				else
-				if(str == "brick" || str == "cliff" || str == "cloud" || str == "fence" || str == "grass" || str == "hedge" || str == "ice" || str == "wall" || str == "water")
-					obj = new Directed(str.c_str(), column * 24, row * 24,dir);
+					if (str == "brick" || str == "cliff" || str == "cloud" || str == "fence" || str == "grass" || str == "hedge" || str == "ice" || str == "wall" || str == "water")
+					{
+						obj = new Directed(str.c_str(), column * 24, row * 24, dir);
+						direct->addObj(obj);
+					}
 				else
 				if (str.find("text") != std::string::npos)
 					obj = new Text(str.c_str(), column * 24, row * 24);

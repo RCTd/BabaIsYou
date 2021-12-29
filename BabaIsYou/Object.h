@@ -11,6 +11,7 @@ private:
 	int frame = 0, step = 0;
 	SDL_Color color;
 public:
+	int i, j;
 	std::string name;
 	int a, direction = 0,orient=0;
 	bool isYou = false;
@@ -31,10 +32,10 @@ public:
 	~object();
 	bool move(int dir);
 	virtual void changeTexture(int dir, int step);
-	void incX() { x += framespeed; }
-	void incY() { y += framespeed; }
-	void decX() { x -= framespeed; }
-	void decY() { y -= framespeed; }
+	void incX() { x += framespeed; i ++; }
+	void incY() { y += framespeed; j ++; }
+	void decX() { x -= framespeed; i --; }
+	void decY() { y -= framespeed; j --; }
 	int GetX() { return x; }
 	int GetY() { return y; }
 	int getStep() { step = (step < 3) ? step + 1 : 0; return step; }

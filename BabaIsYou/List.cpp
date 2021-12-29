@@ -27,14 +27,35 @@ void List::update()
 bool List::move(int dir)
 {
 	bool succes = true;
+	//if (dir == 0 || dir == 8) {
+	//	std::list<object*>::iterator it = me->end(), it1 = it;
+	//	while ((!me->empty()) && it != me->begin())
+	//		//for (std::list<object*>::iterator it = me->end(), it1 = it; (!me->empty()) && it != me->end(); )
+	//	{
+	//		--it; it1 = it; --it1;
+	//		if ((*it)->isYou && ((!flags::rec && !(*it)->ismov) || (flags::rec && (*it)->isStop)))
+	//			succes &= (*it)->move(dir);
+	//		else
+	//			if ((*it)->isPush && flags::rec && !(*it)->isYou)
+	//				succes &= (*it)->move(dir);
+	//			else
+	//				if ((*it)->isStop)
+	//					succes = false;
+	//		//it = it1;
+	//	}
+	//}
+	//else
 	for (std::list<object*>::iterator it = me->begin(), it1 = it; (!me->empty()) && it != me->end(); it = it1)
 	{
 		++it1;
-		if ((*it)->isStop)
-			succes = false;
+		if((*it)->isYou&&((!flags::rec&&!(*it)->ismov)||(flags::rec&&(*it)->isStop)))
+			succes &= (*it)->move(dir);
 		else
-			if((*it)->isPush||((*it)->isYou&&!flags::rec))
-				succes&=(*it)->move(dir);
+			if((*it)->isPush&&flags::rec&&!(*it)->isYou)
+				succes &= (*it)->move(dir);
+			else
+			if ((*it)->isStop)
+				succes = false;
 	}
 	return succes;
 }

@@ -173,6 +173,7 @@
     <Text Include="Lvl3.txt" />
     <Text Include="Lvl4.txt" />
     <Text Include="Lvl5.txt" />
+    <Text Include="Lvltest.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -12,4 +12,5 @@ public:
 protected:
 	SDL_Rect src, dest;
 	List* world;
+	List* direct;
 };

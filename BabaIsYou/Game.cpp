@@ -1,12 +1,13 @@
 #include "Game.h"
 #include <fstream>
-
-//object* keke;
+#include "Directed.h"
+object* keke;
 SDL_Renderer* Game::renderer = nullptr;
 bool flags::ismoving = false;
 bool flags::andmov = true;
 bool flags::remove = false;
 bool flags::rec = false;
+bool flags::tex = false;
 List* Map::objmap[16][28] = { nullptr };
 void Game::init(const char* Windowtitle, int x, int y, int w, int h)
 {
@@ -34,7 +35,7 @@ void Game::init(const char* Windowtitle, int x, int y, int w, int h)
 	{
 		SDL_Log("INIT ERROR %s\n", SDL_GetError());
 	}
-	std::ifstream in("Lvl5.txt");
+	std::ifstream in("Lvl1.txt");
 	int lvl[16][28];
 	for (int i = 0; i < 16; i++)
 	{
@@ -50,17 +51,16 @@ void Game::init(const char* Windowtitle, int x, int y, int w, int h)
 		}
 	}
 	LoadMap(lvl,lvlcolor);
-	checkLinks();
+	Rules();
 
-	/*keke = new object("keke", 9*24, 6*24, 8);
-	objmap[6][9]->addObj(keke);
-	world->addObj(keke);*/
-
-	stop("wall", true);
-	makeYou("baba",true);
-	push("rock", true);
-	push("skull", true);
+	/*keke = new Directed("wall", 5*24, 6*24, 0);
+	objmap[6][5]->addObj(keke);
+	world->addObj(keke);
+	push("wall",true);
+	push("baba", true);*/
 	//makeYou("keke",true);
+
+	checkLinks();
 	ismoving = false;
 	andmov = true;
 }
@@ -76,7 +76,7 @@ void Game::render()
 	SDL_RenderClear(renderer);
 
 	world->render();
-	List::render();
+	//List::render();
 	SDL_RenderPresent(renderer);
 }
 void Game::events()
@@ -89,6 +89,7 @@ void Game::events()
 		break;
 	case SDL_KEYDOWN:
 		if (!ismoving)
+		{
 			switch (event.key.keysym.sym)
 			{
 			case SDLK_UP:
@@ -108,9 +109,14 @@ void Game::events()
 				ismoving = true;
 				break;
 			}
+			if (ismoving && flags::tex)
+			{
+				checkLinks();
+				flags::tex = false;
+			}
+		}
 		break;
 	}
-
 }
 void Game::close()
 {
