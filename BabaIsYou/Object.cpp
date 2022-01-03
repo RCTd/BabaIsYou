@@ -130,15 +130,17 @@ bool object::move(int dir)
 	int j = y / 24;*/
 	flags::rec = true;
 	bool succes = true;
+	a = 2;
+	ismov = true;
+	direction = dir;
+	changeTexture(dir, getStep());
+	if (!this->isStop)
+		flags::tex = true;
 	if (pushnext(dir))
 	{
-		a = 2;
-		ismov = true;
-		direction = dir;
-		if (!this->isStop)
-			flags::tex = true;
-		else
-			changeTexture(dir, getStep());
+		
+		/*else
+			flags::tex = true;*/
 		switch (dir)
 		{
 		case 8:
@@ -192,3 +194,8 @@ bool object::move(int dir)
 	flags::rec = false;
 	return succes;
 }
+
+//const char* object::ret()
+//{
+//	return 0;
+//}

@@ -8,6 +8,7 @@ bool flags::andmov = true;
 bool flags::remove = false;
 bool flags::rec = false;
 bool flags::tex = false;
+bool flags::active = false;
 List* Map::objmap[16][28] = { nullptr };
 void Game::init(const char* Windowtitle, int x, int y, int w, int h)
 {
@@ -76,7 +77,6 @@ void Game::render()
 	SDL_RenderClear(renderer);
 
 	world->render();
-	//List::render();
 	SDL_RenderPresent(renderer);
 }
 void Game::events()
@@ -90,7 +90,7 @@ void Game::events()
 	case SDL_KEYDOWN:
 		if (!ismoving)
 		{
-			switch (event.key.keysym.sym)
+ 			switch (event.key.keysym.sym)
 			{
 			case SDLK_UP:
 				List::move(8);
@@ -108,11 +108,18 @@ void Game::events()
 				List::move(0);
 				ismoving = true;
 				break;
+			case SDLK_SPACE:
+
+				ismoving = true;
+				break;
 			}
-			if (ismoving && flags::tex)
+			if (ismoving)
 			{
-				checkLinks();
-				flags::tex = false;
+				Rules();
+				if (flags::tex) {
+					checkLinks();
+					flags::tex = false;
+				}
 			}
 		}
 		break;

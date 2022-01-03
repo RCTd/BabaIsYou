@@ -18,6 +18,7 @@ public:
 	bool isPush = false;
 	bool isStop = false;
 	bool ismov = false;
+	bool isWin = false;
 	void init();
 	void changeObjColor(int red, int green, int blue) {
 		color.r = red;
@@ -31,7 +32,9 @@ public:
 	object(const char* name, int x, int y, int dir);
 	~object();
 	bool move(int dir);
+	//virtual const char* ret();
 	virtual void changeTexture(int dir, int step);
+	virtual bool find(int sign) { return false; }
 	void incX() { x += framespeed; i ++; }
 	void incY() { y += framespeed; j ++; }
 	void decX() { x -= framespeed; i --; }
@@ -98,3 +101,32 @@ depends on others:
 	wall
 	water
 	*/
+
+/*atributes:
+text_you
+text_word
+text_win
+text_weak
+text_up
+text_tele
+text_swap
+text_stop
+text_sink
+text_shut
+text_shift
+text_right
+text_red
+text_push
+text_pull
+text_open
+text_move
+text_more
+text_melt
+text_left
+text_hot
+text_float
+text_fall
+text_down
+text_defeat
+text_blue
+*/

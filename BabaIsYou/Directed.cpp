@@ -26,8 +26,6 @@ int Directed::neighbours(int i, int j, int dir)
 void Directed::changeTexture(int dir, int step)
 {
 	int d = 0;
-	/*int i = GetX() / 24;
-	int j = GetY() / 24;*/
 	if (step < 0)
 	{
 		orient = neighbours(i, j, -1);
@@ -128,4 +126,14 @@ void Directed::changeTexture(int dir, int step)
 	}
 	orient = d;
 	object::changeTexture(d, 0);
+}
+
+bool Directed::find(int sign)
+{
+	if (sign < 0)
+		orient ^= abs(sign);
+	else
+		orient |= sign;
+	object::changeTexture(orient, 0);
+	return false;
 }

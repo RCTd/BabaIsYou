@@ -22,16 +22,21 @@ void Game::stop(const char* name,bool state)
 			(*it)->isStop = state;
 	}
 }
+void Game::win(const char* name, bool state)
+{
+	for (std::list<object*>::iterator it = world->me->begin(); it != world->me->end(); ++it)
+	{
+		if ((*it)->name == name)
+			(*it)->isWin = state;
+	}
+}
 
 void Game::push(const char* name, bool state)
 {
-	for (std::list<object*>::iterator it = world->me->begin(),it1=it;it != world->me->end(); it=it1)
+	for (std::list<object*>::iterator it = world->me->begin();it != world->me->end(); ++it)
 	{
-		++it1;
 		if ((*it)->name == name)
-		{
 			(*it)->isPush = state;
-		}
 	}
 }
 
@@ -50,24 +55,51 @@ void Game::makeYou(const char* name,bool state)
 		if ((*it)->name == name)
 		{
 			(*it)->isYou = state;
-			addObj((*it));
+			state ? addObj((*it)) : removeObj((*it));
 		}
 	}
 }
 
 void Game::Rules()
 {
+	std::string str="";
 	for (std::list<object*>::iterator it = world->me->begin(); it != world->me->end(); ++it)
 	{
 		if ((*it)->name == "text_you")
 		{
-
+			if ((*it)->i > 1 && Map::objmap[(*it)->j][(*it)->i - 1]->find("text_is", 0))
+				str = Map::objmap[(*it)->j][(*it)->i - 2]->ret();
+			if (str != "")makeYou(str.c_str(), true); str = "";
+			if ((*it)->j > 1 && Map::objmap[(*it)->j - 1][(*it)->i]->find("text_is", 0))
+				str = Map::objmap[(*it)->j-2][(*it)->i]->ret();
+			if (str != "")makeYou(str.c_str(), true);
+		}else if ((*it)->name == "text_push")
+		{
+			if ((*it)->i > 1 && Map::objmap[(*it)->j][(*it)->i - 1]->find("text_is", 0))
+				str = Map::objmap[(*it)->j][(*it)->i - 2]->ret();
+			if (str != "")push(str.c_str(), true); str = "";
+			if ((*it)->j > 1 && Map::objmap[(*it)->j - 1][(*it)->i]->find("text_is", 0))
+				str = Map::objmap[(*it)->j - 2][(*it)->i]->ret();
+			if (str != "")push(str.c_str(), true);
+		}else if ((*it)->name == "text_stop")
+		{
+			if ((*it)->i > 1 && Map::objmap[(*it)->j][(*it)->i - 1]->find("text_is", 0))
+				str = Map::objmap[(*it)->j][(*it)->i - 2]->ret();
+			if (str != "")stop(str.c_str(), true); str = "";
+			if ((*it)->j > 1 && Map::objmap[(*it)->j - 1][(*it)->i]->find("text_is", 0))
+				str = Map::objmap[(*it)->j - 2][(*it)->i]->ret();
+			if (str != "")stop(str.c_str(), true);
+		}
+		else if ((*it)->name == "text_win")
+		{
+			if ((*it)->i > 1 && Map::objmap[(*it)->j][(*it)->i - 1]->find("text_is", 0))
+				str = Map::objmap[(*it)->j][(*it)->i - 2]->ret();
+			if (str != "")win(str.c_str(), true); str = "";
+			if ((*it)->j > 1 && Map::objmap[(*it)->j - 1][(*it)->i]->find("text_is", 0))
+				str = Map::objmap[(*it)->j - 2][(*it)->i]->ret();
+			if (str != "")win(str.c_str(), true);
 		}
 	}
-	stop("wall", true);
-	makeYou("wall", true);
-	push("rock", true);
-	push("skull", true);
 	forground();
 }
 

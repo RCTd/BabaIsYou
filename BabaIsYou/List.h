@@ -12,7 +12,9 @@ public:
 	~List();
 	void render();
 	void addObj(object* o);
+	void removeObj(object* o);
 	void update();
 	bool move(int);
 	bool find(const char* name,int sign);
+	std::string ret();
 };

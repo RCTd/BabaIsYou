@@ -12,7 +12,10 @@ void List::addObj(object* o)
 {
 	me->push_back(o);
 }
-
+void List::removeObj(object* o)
+{
+	me->remove(o);
+}
 void List::update()
 {
 	flags::andmov = false;
@@ -27,24 +30,6 @@ void List::update()
 bool List::move(int dir)
 {
 	bool succes = true;
-	//if (dir == 0 || dir == 8) {
-	//	std::list<object*>::iterator it = me->end(), it1 = it;
-	//	while ((!me->empty()) && it != me->begin())
-	//		//for (std::list<object*>::iterator it = me->end(), it1 = it; (!me->empty()) && it != me->end(); )
-	//	{
-	//		--it; it1 = it; --it1;
-	//		if ((*it)->isYou && ((!flags::rec && !(*it)->ismov) || (flags::rec && (*it)->isStop)))
-	//			succes &= (*it)->move(dir);
-	//		else
-	//			if ((*it)->isPush && flags::rec && !(*it)->isYou)
-	//				succes &= (*it)->move(dir);
-	//			else
-	//				if ((*it)->isStop)
-	//					succes = false;
-	//		//it = it1;
-	//	}
-	//}
-	//else
 	for (std::list<object*>::iterator it = me->begin(), it1 = it; (!me->empty()) && it != me->end(); it = it1)
 	{
 		++it1;
@@ -71,14 +56,31 @@ bool List::find(const char* name,int sign)
 	{
 		if ((*it)->name == name)
 		{
-			if(sign<0)
-				(*it)->orient ^= abs(sign);
-			else
-				(*it)->orient |= sign;
-			(*it)->object::changeTexture((*it)->orient, 0);
+			if((*it)->find(sign))
+				return true;
 			return true;
-			break;
 		}
 	}
 	return false;
+}
+bool name(std::string name)
+{
+	if (name != "text_you" && name != "text_word" && name != "text_win" && name != "text_weak" && name != "text_up" && name != "text_tele" && name != "text_swap"
+		&& name != "text_stop" && name != "text_sink" && name != "text_shut" && name != "text_shift" && name != "text_right" && name != "text_red" && name != "text_push" && name != "text_pull" && name != "text_open"&& name!="text_is"
+		&& name != "text_move" && name != "text_more" && name != "text_melt" && name != "text_left" && name != "text_hot" && name != "text_float" && name != "text_fall" && name != "text_down" && name != "text_defeat" && name != "text_blue")
+		return true;
+	else
+		return false;
+}
+std::string List::ret()
+{
+	for (std::list<object*>::iterator it = me->begin(); it != me->end(); ++it)
+		if (name((*it)->name) && (*it)->name.find("text") != std::string::npos)
+		{
+			flags::active = true;
+			std::string str = (*it)->name;
+			str.erase(0, 5);
+			return str;
+		}
+	return "";
 }

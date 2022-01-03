@@ -8,4 +8,5 @@ public:
 	static bool remove;
 	static bool rec;
 	static bool tex;
+	static bool active;
 };

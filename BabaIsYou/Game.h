@@ -29,6 +29,7 @@ public:
 	void makeYou(const char* name, bool state);
 	void forground();
 	void stop(const char* name,bool state);
+	void win(const char* name, bool state);
 	void push(const char* name, bool state);
 	void checkLinks();
 
