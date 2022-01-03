@@ -126,8 +126,6 @@ void object::render()
 }
 bool object::move(int dir)
 {
-	/*int i = x / 24;
-	int j = y / 24;*/
 	flags::rec = true;
 	bool succes = true;
 	a = 2;
@@ -138,9 +136,8 @@ bool object::move(int dir)
 		flags::tex = true;
 	if (pushnext(dir))
 	{
-		
-		/*else
-			flags::tex = true;*/
+		if(isActive)
+			flags::erasefg = true;
 		switch (dir)
 		{
 		case 8:
@@ -184,18 +181,9 @@ bool object::move(int dir)
 				succes = false;
 			break;
 		}
-		/*a = 2;
-		ismov = true;
-		direction = dir;
-		changeTexture(dir, getStep());*/
 	}
 	else
 		succes = false;
 	flags::rec = false;
 	return succes;
 }
-
-//const char* object::ret()
-//{
-//	return 0;
-//}

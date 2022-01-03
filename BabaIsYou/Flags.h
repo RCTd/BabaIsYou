@@ -9,4 +9,5 @@ public:
 	static bool rec;
 	static bool tex;
 	static bool active;
+	static bool erasefg;
 };

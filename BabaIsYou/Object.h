@@ -11,7 +11,7 @@ private:
 	int frame = 0, step = 0;
 	SDL_Color color;
 public:
-	int i, j;
+	int i, j,col=0;
 	std::string name;
 	int a, direction = 0,orient=0;
 	bool isYou = false;
@@ -19,12 +19,14 @@ public:
 	bool isStop = false;
 	bool ismov = false;
 	bool isWin = false;
+	bool isActive = false;
+	bool isTextofObj = false;
 	void init();
 	void changeObjColor(int red, int green, int blue) {
 		color.r = red;
 		color.g = green;
 		color.b = blue;
-		SDL_SetTextureColorMod(objTexture, red, green, blue);
+		SDL_SetTextureColorMod(objTexture, color.r, color.g, color.b);
 	}
 	bool pushnext(int dir);
 	//void makeYou(bool a) { isYou = a ? a : !a; }

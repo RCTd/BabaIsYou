@@ -1,6 +1,9 @@
 #include "Game.h"
 #include <fstream>
 #include "Directed.h"
+#include "Text.h"
+#include "name.h"
+
 object* keke;
 SDL_Renderer* Game::renderer = nullptr;
 bool flags::ismoving = false;
@@ -9,6 +12,8 @@ bool flags::remove = false;
 bool flags::rec = false;
 bool flags::tex = false;
 bool flags::active = false;
+bool flags::erasefg = false;
+std::list<object*> *Game::activelist = new std::list<object*>;
 List* Map::objmap[16][28] = { nullptr };
 void Game::init(const char* Windowtitle, int x, int y, int w, int h)
 {
@@ -113,6 +118,11 @@ void Game::events()
 				ismoving = true;
 				break;
 			}
+			if (erasefg)
+			{
+				highlight();
+				erasefg = false;
+			}
 			if (ismoving)
 			{
 				Rules();
@@ -136,3 +146,38 @@ void Game::close()
 	SDL_Quit();
 }
 
+void Game::highlight()
+{
+	SDL_Color* c = new SDL_Color;
+	for (std::list<object*>::iterator it = activelist->begin(),it1=it; it != activelist->end(); it=it1)
+	{
+		it1++;
+		if (!(*it)->isActive)
+		{
+			(*it)->isActive=true;
+			(*it)->col += 7;
+			c = hex2sdl(hexcolor[(*it)->col]);
+			(*it)->changeObjColor(c->r, c->g, c->b);
+		}
+		else
+			if (!active) 
+			{
+				(*it)->isActive = false;
+				(*it)->col -= 7;
+				c = hex2sdl(hexcolor[(*it)->col]);
+				(*it)->changeObjColor(c->r, c->g, c->b);
+				if ((*it)->isTextofObj)
+				{
+					std::string str = (*it)->name;
+					str.erase(0, 5);
+					if (str != "")
+						/*erasefg = true;*/
+					{
+						erase(str);
+						//makeYou(str.c_str(), 0);
+					}
+				}
+				activelist->erase(it);
+			}
+	}
+}

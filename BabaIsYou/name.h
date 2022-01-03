@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-std::string name[1093] = { "baba.0",
+const std::string nameobj[1093] = { "baba.0",
 "baba.0",
 "baba.0",
 "baba.1",
@@ -1096,7 +1096,7 @@ std::string name[1093] = { "baba.0",
 "what.0" };
 
 
-std::string hexcolor[35] = {
+const std::string hexcolor[35] = {
 "#2a5875",
 "#15181f",
 "#421910",
@@ -1104,6 +1104,7 @@ std::string hexcolor[35] = {
 "#682e4c",
 "#303824",
 "#503f24",
+
 "#737373",
 "#293141",
 "#82261c",
@@ -1111,20 +1112,23 @@ std::string hexcolor[35] = {
 "#d9396a",
 "#4b5c1c",
 "#90673e",
+
 "#c3c3c3",
 "#3e7688",
 "#e5533b",
 "#4e5a94",
 "#eb91ca",
 "#5c8339",
-"#c29e46",
+"#c29e46", 
+
 "#ffffff",
 "#5f9dd1",
 "#e49950",
 "#9183d7",
 "#000000",
 "#a5b13f",
-"#362e22",
+"#362e22", 
+
 "#080808",
 "#83c8e5",
 "#ede285",
@@ -1133,3 +1137,4 @@ std::string hexcolor[35] = {
 "#000000",
 "#0b0b0e"
 };
+

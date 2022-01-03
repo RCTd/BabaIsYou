@@ -4,6 +4,7 @@
 class Map :public List
 {
 public:
+	static SDL_Color* hex2sdl(std::string input);
 	Map();
 	~Map();
 
@@ -14,3 +15,4 @@ protected:
 	List* world;
 	List* direct;
 };
+

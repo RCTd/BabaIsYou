@@ -5,15 +5,12 @@
 #include "Directed.h"
 #include "Thing.h"
 
-SDL_Color* hex2sdl(std::string input) {
-
+SDL_Color* Map::hex2sdl(std::string input)
+{
 	if (input[0] == '#')
 		input.erase(0, 1);
-
 	unsigned long value = stoul(input, nullptr, 16);
-
 	SDL_Color color;
-
 	color.a = (value >> 24) & 0xff;
 	color.r = (value >> 16) & 0xff;
 	color.g = (value >> 8) & 0xff;
@@ -55,7 +52,7 @@ void Map::LoadMap(int arr[16][28],int color[16][28])
 				objmap[row][column] = new List();
 			if (arr[row][column])
 			{
-				str = name[arr[row][column]];
+				str = nameobj[arr[row][column]];
 				pos = str.find(".") + 1;
 				dir = atoi(str.substr(pos, 2).c_str());
 				pos--;
@@ -77,7 +74,8 @@ void Map::LoadMap(int arr[16][28],int color[16][28])
 				else
 					obj = new Thing(str.c_str(), column * 24, row * 24);
 
-				c = hex2sdl(hexcolor[color[row][column] - 1094>=0? (color[row][column] - 1094):21]);
+				obj->col = color[row][column] - 1094 >= 0 ? (color[row][column] - 1094) : 21;
+				c = hex2sdl(hexcolor[obj->col]);
 				obj->changeObjColor(c->r, c->g, c->b);
 				objmap[row][column]->addObj(obj);
 				world->addObj(obj);

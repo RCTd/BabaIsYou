@@ -55,13 +55,14 @@ void Game::makeYou(const char* name,bool state)
 		if ((*it)->name == name)
 		{
 			(*it)->isYou = state;
-			state ? addObj((*it)) : removeObj((*it));
+			state ? addObj(*it) : removeObj(*it);
 		}
 	}
 }
 
 void Game::Rules()
 {
+	//make rules based on text_it
 	std::string str="";
 	for (std::list<object*>::iterator it = world->me->begin(); it != world->me->end(); ++it)
 	{
@@ -99,6 +100,12 @@ void Game::Rules()
 				str = Map::objmap[(*it)->j - 2][(*it)->i]->ret();
 			if (str != "")win(str.c_str(), true);
 		}
+		if (active)
+		{
+			activelist->push_back(*it);
+			highlight();
+			active = false;
+		}
 	}
 	forground();
 }
@@ -116,8 +123,17 @@ void Game::thisIsthis(const char* name1, const char* name2)
 	}
 }
 
-/*to do:
-make rules reader,make thisIsthis
- 
- 
- */
+void Game::erase(std::string str)
+{
+	for (std::list<object*>::iterator it = world->me->begin(); it != world->me->end(); ++it)
+	{
+		if ((*it)->name == str.c_str())
+		{
+			(*it)->isYou = false;
+			(*it)->isPush = false;
+			(*it)->isStop = false;
+			(*it)->ismov = false;
+			(*it)->isWin = false;
+		}
+	}
+}
