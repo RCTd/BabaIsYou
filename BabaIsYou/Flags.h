@@ -10,4 +10,5 @@ public:
 	static bool tex;
 	static bool active;
 	static bool erasefg;
+	static bool win;
 };

@@ -54,10 +54,27 @@ void Game::makeYou(const char* name,bool state)
 		++it1;
 		if ((*it)->name == name)
 		{
+			//state ? (!(*it)->isYou?addObj(*it):) : removeObj(*it);
+			if (state) {
+				if (!(*it)->isYou)
+					addObj(*it);
+			}
+			else
+				removeObj(*it);
 			(*it)->isYou = state;
-			state ? addObj(*it) : removeObj(*it);
 		}
 	}
+}
+
+bool Game::checkwin()
+{
+	for (std::list<object*>::iterator it = me->begin();it != me->end(); it++)
+	{
+		for (std::list<object*>::iterator it1 = objmap[(*it)->j][(*it)->i]->me->begin(); it1 != objmap[(*it)->j][(*it)->i]->me->end(); it1++)
+			if ((*it1)->isWin)
+				return true;
+	}
+	return false;
 }
 
 void Game::Rules()
@@ -136,4 +153,13 @@ void Game::erase(std::string str)
 			(*it)->isWin = false;
 		}
 	}
+	me->clear();
 }
+
+/*
+thisisthis
+rules from text_is
+stack for undo?
+make level selector?
+
+*/

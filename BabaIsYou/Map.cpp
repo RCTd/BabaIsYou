@@ -4,6 +4,7 @@
 #include "Walker.h"
 #include "Directed.h"
 #include "Thing.h"
+#include <fstream>
 
 SDL_Color* Map::hex2sdl(std::string input)
 {
@@ -38,11 +39,26 @@ Map::~Map()
 	free(objmap);
 }
 
-void Map::LoadMap(int arr[16][28],int color[16][28])
+void Map::LoadMap(int lvl)
 {
+	std::string str="Lvl"+std::to_string(lvl)+".txt";
+	std::ifstream in(str);
+	int arr[16][28];
+	for (int i = 0; i < 16; i++)
+	{
+		for (int j = 0; j < 28; j++) {
+			in >> arr[i][j];
+		}
+	}
+	int color[16][28];
+	for (int i = 0; i < 16; i++)
+	{
+		for (int j = 0; j < 28; j++) {
+			in >> color[i][j];
+		}
+	}
 	SDL_Color* c;
 	object* obj;
-	std::string str;
 	int pos, dir;
 	for (int row = 0; row < 16; row++)
 	{

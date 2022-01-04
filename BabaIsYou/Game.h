@@ -1,12 +1,13 @@
 #pragma once
 #include "Flags.h"
 #include "Map.h"
-
+#include <SDL_mixer.h>
 class Game :public flags, public Map {
 private:
 	bool isRunning = false;
 	int cnt = 0;
-
+	int lvl=1;
+	Mix_Music* gMusic = NULL;
 	SDL_Window* window;
 	SDL_Event event;
 public:
@@ -18,9 +19,11 @@ public:
 	void init(const char* Windowtitle, int x, int y, int w, int h);
 	void update();
 	void events();
+	void clear();
 	void render();
 	void close();
 	inline bool getRunning() { return isRunning; }
+	bool checkwin();
 
 	void highlight();
 	void Rules();

@@ -8,7 +8,7 @@ public:
 	Map();
 	~Map();
 
-	void LoadMap(int arr[16][28],int color[16][28]);
+	void LoadMap(int lvl);
 	static List* objmap[16][28];
 protected:
 	SDL_Rect src, dest;

@@ -1,5 +1,4 @@
 #include "Game.h"
-#include <fstream>
 #include "Directed.h"
 #include "Text.h"
 #include "name.h"
@@ -13,6 +12,7 @@ bool flags::rec = false;
 bool flags::tex = false;
 bool flags::active = false;
 bool flags::erasefg = false;
+bool flags::win = false;
 std::list<object*> *Game::activelist = new std::list<object*>;
 List* Map::objmap[16][28] = { nullptr };
 void Game::init(const char* Windowtitle, int x, int y, int w, int h)
@@ -33,7 +33,12 @@ void Game::init(const char* Windowtitle, int x, int y, int w, int h)
 			}
 			else
 			{
-				isRunning = true;
+				if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+				{
+					SDL_Log("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+				}
+				else
+					isRunning = true;
 			}
 		}
 	}
@@ -41,30 +46,15 @@ void Game::init(const char* Windowtitle, int x, int y, int w, int h)
 	{
 		SDL_Log("INIT ERROR %s\n", SDL_GetError());
 	}
-	std::ifstream in("Lvl1.txt");
-	int lvl[16][28];
-	for (int i = 0; i < 16; i++)
+	
+	gMusic = Mix_LoadMUS("Music/baba.ogg");
+	if (gMusic == NULL)
 	{
-		for (int j = 0; j < 28; j++) {
-			in >> lvl[i][j];
-		}
+		SDL_Log("Failed to load beat music!SDL_mixer Error : % s\n", Mix_GetError());
 	}
-	int lvlcolor[16][28];
-	for (int i = 0; i < 16; i++)
-	{
-		for (int j = 0; j < 28; j++) {
-			in >> lvlcolor[i][j];
-		}
-	}
-	LoadMap(lvl,lvlcolor);
+	//Mix_PlayMusic(gMusic, -1);
+	LoadMap(1);
 	Rules();
-
-	/*keke = new Directed("wall", 5*24, 6*24, 0);
-	objmap[6][5]->addObj(keke);
-	world->addObj(keke);
-	push("wall",true);
-	push("baba", true);*/
-	//makeYou("keke",true);
 
 	checkLinks();
 	ismoving = false;
@@ -114,9 +104,13 @@ void Game::events()
 				ismoving = true;
 				break;
 			case SDLK_SPACE:
-
+				// create wait
 				ismoving = true;
 				break;
+			case SDLK_r:
+				clear();
+				LoadMap(lvl);
+				Rules();
 			}
 			if (erasefg)
 			{
@@ -130,17 +124,44 @@ void Game::events()
 					checkLinks();
 					flags::tex = false;
 				}
+				if (checkwin())
+				{
+					lvl > 4 ? lvl = 1:lvl++;
+					clear();
+					LoadMap(lvl);
+					Rules();
+				}
 			}
 		}
 		break;
 	}
 }
+void Game::clear()
+{
+	Map::List::me->clear();
+	world->me->clear();
+	direct->me->clear();
+	activelist->clear();
+	for (int i = 0; i < 16; i++)
+		for (int j = 0; j < 28; j++)
+			objmap[i][j]->me->clear();
+	flags::ismoving = false;
+	flags::andmov = true;
+	flags::remove = false;
+	flags::rec = false;
+	flags::tex = false;
+	flags::active = false;
+	flags::erasefg = false;
+}
+
 void Game::close()
 {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	window = NULL;
 	renderer = NULL;
+	Mix_FreeMusic(gMusic);
+	gMusic = NULL;
 
 	IMG_Quit();
 	SDL_Quit();
@@ -171,7 +192,6 @@ void Game::highlight()
 					std::string str = (*it)->name;
 					str.erase(0, 5);
 					if (str != "")
-						/*erasefg = true;*/
 					{
 						erase(str);
 						//makeYou(str.c_str(), 0);
