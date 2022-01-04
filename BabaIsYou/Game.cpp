@@ -52,7 +52,7 @@ void Game::init(const char* Windowtitle, int x, int y, int w, int h)
 	{
 		SDL_Log("Failed to load beat music!SDL_mixer Error : % s\n", Mix_GetError());
 	}
-	//Mix_PlayMusic(gMusic, -1);
+	Mix_PlayMusic(gMusic, -1);
 	LoadMap(1);
 	Rules();
 
@@ -142,6 +142,10 @@ void Game::clear()
 	world->me->clear();
 	direct->me->clear();
 	activelist->clear();
+	textis->me->clear();
+	textatr->me->clear();
+	textob->me->clear();
+	ob->me->clear();
 	for (int i = 0; i < 16; i++)
 		for (int j = 0; j < 28; j++)
 			objmap[i][j]->me->clear();
@@ -162,7 +166,7 @@ void Game::close()
 	renderer = NULL;
 	Mix_FreeMusic(gMusic);
 	gMusic = NULL;
-
+	activelist->clear();
 	IMG_Quit();
 	SDL_Quit();
 }
@@ -194,7 +198,6 @@ void Game::highlight()
 					if (str != "")
 					{
 						erase(str);
-						//makeYou(str.c_str(), 0);
 					}
 				}
 				activelist->erase(it);

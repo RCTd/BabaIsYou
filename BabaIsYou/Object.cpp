@@ -82,8 +82,6 @@ void object::update()
 bool object::pushnext(int dir)
 {
 	bool succes=true;
-	/*int i = x / 24;
-	int j = y / 24;*/
 	switch (dir)
 	{
 	case 8:

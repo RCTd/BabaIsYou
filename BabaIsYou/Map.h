@@ -14,5 +14,6 @@ protected:
 	SDL_Rect src, dest;
 	List* world;
 	List* direct;
+	List* textis,*textatr,*textob,*ob;
 };
 

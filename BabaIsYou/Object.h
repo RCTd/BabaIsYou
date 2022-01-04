@@ -5,7 +5,6 @@
 class object {
 private:
 	int x, y;
-	//bool isYou = false;
 	SDL_Texture* objTexture;
 	SDL_Rect srcRect, destRect;
 	int frame = 0, step = 0;
@@ -29,12 +28,10 @@ public:
 		SDL_SetTextureColorMod(objTexture, color.r, color.g, color.b);
 	}
 	bool pushnext(int dir);
-	//void makeYou(bool a) { isYou = a ? a : !a; }
 	object(const char* name, int x, int y);
 	object(const char* name, int x, int y, int dir);
 	~object();
 	bool move(int dir);
-	//virtual const char* ret();
 	virtual void changeTexture(int dir, int step);
 	virtual bool find(int sign) { return false; }
 	void incX() { x += framespeed; i ++; }

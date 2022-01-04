@@ -16,7 +16,7 @@ int i = 0;
 
 void Game::stop(const char* name,bool state)
 {
-	for (std::list<object*>::iterator it = world->me->begin();it != world->me->end(); ++it)
+	for (std::list<object*>::iterator it = ob->me->begin();it != ob->me->end(); ++it)
 	{
 		if ((*it)->name == name)
 			(*it)->isStop = state;
@@ -24,7 +24,7 @@ void Game::stop(const char* name,bool state)
 }
 void Game::win(const char* name, bool state)
 {
-	for (std::list<object*>::iterator it = world->me->begin(); it != world->me->end(); ++it)
+	for (std::list<object*>::iterator it = ob->me->begin(); it != ob->me->end(); ++it)
 	{
 		if ((*it)->name == name)
 			(*it)->isWin = state;
@@ -33,7 +33,7 @@ void Game::win(const char* name, bool state)
 
 void Game::push(const char* name, bool state)
 {
-	for (std::list<object*>::iterator it = world->me->begin();it != world->me->end(); ++it)
+	for (std::list<object*>::iterator it = ob->me->begin();it != ob->me->end(); ++it)
 	{
 		if ((*it)->name == name)
 			(*it)->isPush = state;
@@ -49,12 +49,11 @@ void Game::checkLinks()
 }
 void Game::makeYou(const char* name,bool state)
 {
-	for (std::list<object*>::iterator it = world->me->begin(),it1=it;it != world->me->end(); it=it1)
+	for (std::list<object*>::iterator it = ob->me->begin(),it1=it;it != ob->me->end(); it=it1)
 	{
 		++it1;
 		if ((*it)->name == name)
 		{
-			//state ? (!(*it)->isYou?addObj(*it):) : removeObj(*it);
 			if (state) {
 				if (!(*it)->isYou)
 					addObj(*it);
@@ -81,7 +80,7 @@ void Game::Rules()
 {
 	//make rules based on text_it
 	std::string str="";
-	for (std::list<object*>::iterator it = world->me->begin(); it != world->me->end(); ++it)
+	for (std::list<object*>::iterator it = textatr->me->begin(); it != textatr->me->end(); ++it)
 	{
 		if ((*it)->name == "text_you")
 		{
@@ -142,7 +141,7 @@ void Game::thisIsthis(const char* name1, const char* name2)
 
 void Game::erase(std::string str)
 {
-	for (std::list<object*>::iterator it = world->me->begin(); it != world->me->end(); ++it)
+	for (std::list<object*>::iterator it = ob->me->begin(); it != ob->me->end(); ++it)
 	{
 		if ((*it)->name == str.c_str())
 		{

@@ -22,7 +22,10 @@ Map::Map()
 {
 	world = new List();
 	direct = new List();
-
+	textis = new List();
+	textatr = new List();
+	textob = new List();
+	ob = new List();
 	src.x = 0;
 	src.y = 0;
 	src.w = 24;
@@ -37,13 +40,28 @@ Map::Map()
 Map::~Map()
 {
 	free(objmap);
+	world->me->clear();
+	direct->me->clear();
+	textis->me->clear();
+	textatr->me->clear();
+	textob->me->clear();
+	ob->me->clear();
 }
-
+bool nonatribute(std::string name)
+{
+	if (name != "text_you" && name != "text_word" && name != "text_win" && name != "text_weak" && name != "text_up" && name != "text_tele" && name != "text_swap"
+		&& name != "text_stop" && name != "text_sink" && name != "text_shut" && name != "text_shift" && name != "text_right" && name != "text_red" && name != "text_push" && name != "text_pull" && name != "text_open" && name != "text_is"
+		&& name != "text_move" && name != "text_more" && name != "text_melt" && name != "text_left" && name != "text_hot" && name != "text_float" && name != "text_fall" && name != "text_down" && name != "text_defeat" && name != "text_blue")
+		return true;
+	else
+		return false;
+}
 void Map::LoadMap(int lvl)
 {
 	std::string str="Lvl"+std::to_string(lvl)+".txt";
 	std::ifstream in(str);
 	int arr[16][28];
+	bool flag = false;
 	for (int i = 0; i < 16; i++)
 	{
 		for (int j = 0; j < 28; j++) {
@@ -86,10 +104,28 @@ void Map::LoadMap(int lvl)
 					}
 				else
 				if (str.find("text") != std::string::npos)
+				{
 					obj = new Text(str.c_str(), column * 24, row * 24);
+					flag = true;
+				}
 				else
 					obj = new Thing(str.c_str(), column * 24, row * 24);
-
+				if (flag)
+				{
+					if (obj->name == "text_is")
+						textis->addObj(obj);
+					else
+						if (nonatribute(obj->name))
+						{
+							obj->isTextofObj = true;
+							textob->addObj(obj);
+						}
+						else
+							textatr->addObj(obj);
+					flag = false;
+				}
+				else
+					ob->addObj(obj);
 				obj->col = color[row][column] - 1094 >= 0 ? (color[row][column] - 1094) : 21;
 				c = hex2sdl(hexcolor[obj->col]);
 				obj->changeObjColor(c->r, c->g, c->b);
