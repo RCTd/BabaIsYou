@@ -5,6 +5,8 @@ class Map :public List
 {
 public:
 	static SDL_Color* hex2sdl(std::string input);
+	std::list<int> colindexlist;
+	std::list<std::string> colindexname;
 	Map();
 	~Map();
 

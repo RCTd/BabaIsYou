@@ -1137,4 +1137,3 @@ const std::string hexcolor[35] = {
 "#000000",
 "#0b0b0e"
 };
-

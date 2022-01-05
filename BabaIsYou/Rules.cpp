@@ -123,6 +123,15 @@ void Game::Rules()
 
 void Game::thisIsthis(const char* name1, const char* name2)
 {
+	std::list<std::string>::iterator it1 = Map::colindexname.begin();
+	for (std::list<int>::iterator it = Map::colindexlist.begin(); it != colindexlist.end(); it++,it1++)
+	{
+		if (*it1 == name2)
+		{
+			flags::colindex = *it;
+			break;
+		}
+	}
 	for (std::list<object*>::iterator it = ob->me->begin(),it1=it; it != ob->me->end(); it=it1)
 	{
 		++it1;
@@ -172,7 +181,8 @@ void Game::destruct()
 }
 
 /*
-thisisthis
+
+hot and melt
 stack for undo?
 make level selector?
 

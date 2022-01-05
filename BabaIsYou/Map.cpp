@@ -119,6 +119,13 @@ void Map::newobject(std::string str,int column,int row,int dir,int col)
 				}
 				else
 					obj = new Thing(str.c_str(), column * 24, row * 24);
+	
+	obj->col = col;
+	c = hex2sdl(hexcolor[obj->col]);
+	obj->changeObjColor(c->r, c->g, c->b);
+	objmap[row][column]->addObj(obj);
+	world->addObj(obj);
+
 	if (flag)
 	{
 		if (obj->name == "text_is")
@@ -131,11 +138,10 @@ void Map::newobject(std::string str,int column,int row,int dir,int col)
 		flag = false;
 	}
 	else
+	{
+		colindexname.push_back(obj->name);
+		colindexlist.push_back(obj->col);
 		ob->addObj(obj);
-	obj->col = col;
-	c = hex2sdl(hexcolor[obj->col]);
-	obj->changeObjColor(c->r, c->g, c->b);
-	objmap[row][column]->addObj(obj);
-	world->addObj(obj);
+	}
 }
 
