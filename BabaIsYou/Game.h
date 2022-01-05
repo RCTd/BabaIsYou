@@ -29,11 +29,9 @@ public:
 	void Rules();
 	void thisIsthis(const char* name1, const char* name2);
 	void erase(std::string str);
-	void makeYou(const char* name, bool state);
+	void destruct();
+	void action(std::string name, std::string name2);
 	void forground();
-	void stop(const char* name,bool state);
-	void win(const char* name, bool state);
-	void push(const char* name, bool state);
 	void checkLinks();
 
 };

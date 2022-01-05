@@ -11,4 +11,6 @@ public:
 	static bool active;
 	static bool erasefg;
 	static bool win;
+	static bool defeat;
+	static bool sink;
 };

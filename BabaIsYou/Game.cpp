@@ -13,8 +13,11 @@ bool flags::tex = false;
 bool flags::active = false;
 bool flags::erasefg = false;
 bool flags::win = false;
+bool flags::defeat = false;
+bool flags::sink = false;
 std::list<object*> *Game::activelist = new std::list<object*>;
 List* Map::objmap[16][28] = { nullptr };
+List* Map::destroy=new List;
 void Game::init(const char* Windowtitle, int x, int y, int w, int h)
 {
 	if (!SDL_Init(SDL_INIT_EVERYTHING) && IMG_Init(IMG_INIT_PNG))
@@ -52,8 +55,8 @@ void Game::init(const char* Windowtitle, int x, int y, int w, int h)
 	{
 		SDL_Log("Failed to load beat music!SDL_mixer Error : % s\n", Mix_GetError());
 	}
-	Mix_PlayMusic(gMusic, -1);
-	LoadMap(1);
+	//Mix_PlayMusic(gMusic, -1);
+	LoadMap(lvl);
 	Rules();
 
 	checkLinks();
@@ -110,6 +113,7 @@ void Game::events()
 			case SDLK_r:
 				clear();
 				LoadMap(lvl);
+				checkLinks();
 				Rules();
 			}
 			if (erasefg)
@@ -119,6 +123,8 @@ void Game::events()
 			}
 			if (ismoving)
 			{
+				if (!destroy->me->empty())
+					destruct();
 				Rules();
 				if (flags::tex) {
 					checkLinks();
@@ -126,9 +132,10 @@ void Game::events()
 				}
 				if (checkwin())
 				{
-					lvl > 4 ? lvl = 1:lvl++;
+					lvl >= 8 ? lvl = 1:lvl++;
 					clear();
 					LoadMap(lvl);
+					checkLinks();
 					Rules();
 				}
 			}
@@ -185,7 +192,7 @@ void Game::highlight()
 			(*it)->changeObjColor(c->r, c->g, c->b);
 		}
 		else
-			if (!active) 
+			if (!active)
 			{
 				(*it)->isActive = false;
 				(*it)->col -= 7;

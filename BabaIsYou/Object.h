@@ -3,6 +3,8 @@
 #include "TextureManager.h"
 #define framespeed 2
 class object {
+public:
+	std::string name;
 private:
 	int x, y;
 	SDL_Texture* objTexture;
@@ -11,7 +13,6 @@ private:
 	SDL_Color color;
 public:
 	int i, j,col=0;
-	std::string name;
 	int a, direction = 0,orient=0;
 	bool isYou = false;
 	bool isPush = false;
@@ -19,7 +20,11 @@ public:
 	bool ismov = false;
 	bool isWin = false;
 	bool isActive = false;
+	bool isdirected = false;
+	bool isdefeat = false;
+	bool issink = false;
 	bool isTextofObj = false;
+	bool isatribute = false;
 	void init();
 	void changeObjColor(int red, int green, int blue) {
 		color.r = red;

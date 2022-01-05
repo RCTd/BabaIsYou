@@ -55,6 +55,16 @@ bool List::find(const char* name,int sign)
 {
 	for (std::list<object*>::iterator it = me->begin(); it != me->end(); ++it)
 	{
+		if (name == "")
+		{
+			if ((*it)->isdefeat)
+				flags::defeat = true;
+			if ((*it)->issink)
+			{
+				flags::sink = true;
+				Map::destroy->addObj(*it);
+			}
+		}else
 		if ((*it)->name == name)
 		{
 			if((*it)->find(sign))
@@ -70,11 +80,19 @@ std::string List::ret()
 	for (std::list<object*>::iterator it = me->begin(); it != me->end(); ++it)
 		if ((*it)->isTextofObj)
 		{
-			flags::active = true;
-			Game::activelist->push_back(*it);
+			Game::activelist->push_front(*it);
 			std::string str = (*it)->name;
 			str.erase(0, 5);
+			if (str == "lava")
+				return "water";
 			return str;
-		}
+		}else
+			if ((*it)->isatribute)
+			{
+				Game::activelist->push_front(*it);
+				std::string str = (*it)->name;
+				flags::active = true;
+				return str;
+			}
 	return "";
 }

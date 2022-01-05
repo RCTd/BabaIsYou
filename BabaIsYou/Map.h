@@ -10,6 +10,7 @@ public:
 
 	void LoadMap(int lvl);
 	static List* objmap[16][28];
+	static List* destroy;
 protected:
 	SDL_Rect src, dest;
 	List* world;

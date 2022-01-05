@@ -25,6 +25,7 @@ Map::Map()
 	textis = new List();
 	textatr = new List();
 	textob = new List();
+	destroy = new List();
 	ob = new List();
 	src.x = 0;
 	src.y = 0;
@@ -121,7 +122,10 @@ void Map::LoadMap(int lvl)
 							textob->addObj(obj);
 						}
 						else
+						{
+							obj->isatribute = true;
 							textatr->addObj(obj);
+						}
 					flag = false;
 				}
 				else

@@ -130,18 +130,21 @@ bool object::move(int dir)
 	ismov = true;
 	direction = dir;
 	changeTexture(dir, getStep());
-	if (!this->isStop)
+	if (!this->isStop&&this->isdirected)
 		flags::tex = true;
 	if (pushnext(dir))
 	{
 		if(isActive)
 			flags::erasefg = true;
+		flags::defeat = false;
+		flags::sink = false;
 		switch (dir)
 		{
 		case 8:
 			if (j > 0)
 			{
 				Map::objmap[j][i]->me->remove(this);
+				Map::objmap[j - 1][i]->find("", 0);
 				Map::objmap[j-1][i]->me->push_back(this);
 				decY();
 			}
@@ -152,6 +155,7 @@ bool object::move(int dir)
 			if (i < 27)
 			{
 				Map::objmap[j][i]->me->remove(this);
+				Map::objmap[j][i+1]->find("", 0);
 				Map::objmap[j][i + 1]->me->push_front(this);
 				incX();
 			}
@@ -162,6 +166,7 @@ bool object::move(int dir)
 			if (j < 15)
 			{
 				Map::objmap[j][i]->me->remove(this);
+				Map::objmap[j + 1][i]->find("", 0);
 				Map::objmap[j+ 1][i]->me->push_back(this);
 				incY();
 			}
@@ -172,6 +177,7 @@ bool object::move(int dir)
 			if (i > 0)
 			{
 				Map::objmap[j][i]->me->remove(this);
+				Map::objmap[j][i-1]->find("", 0);
 				Map::objmap[j][i- 1]->me->push_back(this);
 				decX();
 			}
@@ -179,6 +185,8 @@ bool object::move(int dir)
 				succes = false;
 			break;
 		}
+		if (flags::sink||(flags::defeat&&isYou))
+			Map::destroy->addObj(this);
 	}
 	else
 		succes = false;

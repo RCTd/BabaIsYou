@@ -13,33 +13,6 @@ int i = 0;
 		}
 	}
 }
-
-void Game::stop(const char* name,bool state)
-{
-	for (std::list<object*>::iterator it = ob->me->begin();it != ob->me->end(); ++it)
-	{
-		if ((*it)->name == name)
-			(*it)->isStop = state;
-	}
-}
-void Game::win(const char* name, bool state)
-{
-	for (std::list<object*>::iterator it = ob->me->begin(); it != ob->me->end(); ++it)
-	{
-		if ((*it)->name == name)
-			(*it)->isWin = state;
-	}
-}
-
-void Game::push(const char* name, bool state)
-{
-	for (std::list<object*>::iterator it = ob->me->begin();it != ob->me->end(); ++it)
-	{
-		if ((*it)->name == name)
-			(*it)->isPush = state;
-	}
-}
-
 void Game::checkLinks()
 {
 	for (std::list<object*>::iterator it = direct->me->begin(); it != direct->me->end(); ++it)
@@ -47,20 +20,34 @@ void Game::checkLinks()
 		(*it)->changeTexture(-1, -1);
 	}
 }
-void Game::makeYou(const char* name,bool state)
+
+void Game::action(std::string name,std::string name2)
 {
+	flags::active = false;
 	for (std::list<object*>::iterator it = ob->me->begin(),it1=it;it != ob->me->end(); it=it1)
 	{
 		++it1;
 		if ((*it)->name == name)
 		{
-			if (state) {
-				if (!(*it)->isYou)
-					addObj(*it);
-			}
+			if (name2 == "text_push")
+				(*it)->isPush = true;
 			else
-				removeObj(*it);
-			(*it)->isYou = state;
+				if (name2 == "text_stop")
+					(*it)->isStop = true;
+				else
+					if (name2 == "text_win")
+						(*it)->isWin = true;
+					else
+						if (name2 == "text_defeat")
+							(*it)->isdefeat = true;
+						else
+							if (name2 == "text_sink")
+								(*it)->issink = true;
+							else
+								if (name2 == "text_you") {
+									(*it)->isYou = true;
+									addObj(*it);
+								}
 		}
 	}
 }
@@ -78,57 +65,65 @@ bool Game::checkwin()
 
 void Game::Rules()
 {
-	//make rules based on text_it
-	std::string str="";
-	for (std::list<object*>::iterator it = textatr->me->begin(); it != textatr->me->end(); ++it)
+	std::string str="",str2="";
+	activelist->clear();
+	for (std::list<object*>::iterator it = textis->me->begin(); it != textis->me->end(); ++it)
 	{
-		if ((*it)->name == "text_you")
+		if ((*it)->i > 0 && (*it)->i < 27)
 		{
-			if ((*it)->i > 1 && Map::objmap[(*it)->j][(*it)->i - 1]->find("text_is", 0))
-				str = Map::objmap[(*it)->j][(*it)->i - 2]->ret();
-			if (str != "")makeYou(str.c_str(), true); str = "";
-			if ((*it)->j > 1 && Map::objmap[(*it)->j - 1][(*it)->i]->find("text_is", 0))
-				str = Map::objmap[(*it)->j-2][(*it)->i]->ret();
-			if (str != "")makeYou(str.c_str(), true);
-		}else if ((*it)->name == "text_push")
-		{
-			if ((*it)->i > 1 && Map::objmap[(*it)->j][(*it)->i - 1]->find("text_is", 0))
-				str = Map::objmap[(*it)->j][(*it)->i - 2]->ret();
-			if (str != "")push(str.c_str(), true); str = "";
-			if ((*it)->j > 1 && Map::objmap[(*it)->j - 1][(*it)->i]->find("text_is", 0))
-				str = Map::objmap[(*it)->j - 2][(*it)->i]->ret();
-			if (str != "")push(str.c_str(), true);
-		}else if ((*it)->name == "text_stop")
-		{
-			if ((*it)->i > 1 && Map::objmap[(*it)->j][(*it)->i - 1]->find("text_is", 0))
-				str = Map::objmap[(*it)->j][(*it)->i - 2]->ret();
-			if (str != "")stop(str.c_str(), true); str = "";
-			if ((*it)->j > 1 && Map::objmap[(*it)->j - 1][(*it)->i]->find("text_is", 0))
-				str = Map::objmap[(*it)->j - 2][(*it)->i]->ret();
-			if (str != "")stop(str.c_str(), true);
+			activelist->push_front(*it);
+			str = Map::objmap[(*it)->j][(*it)->i - 1]->ret();
+			if (str != "")
+				if (!flags::active) {
+					str2 = Map::objmap[(*it)->j][(*it)->i + 1]->ret();
+					if (str2 != "")
+					{
+						if (!flags::active)
+							thisIsthis(str.c_str(), str2.c_str());
+						else
+							action(str, str2);
+						goto jmp;
+					}
+					else
+						activelist->remove(*activelist->begin());
+				}else
+					activelist->remove(*activelist->begin());
+			activelist->remove(*activelist->begin());
 		}
-		else if ((*it)->name == "text_win")
+		jmp:
+		if ((*it)->j > 0 && (*it)->j < 15)
 		{
-			if ((*it)->i > 1 && Map::objmap[(*it)->j][(*it)->i - 1]->find("text_is", 0))
-				str = Map::objmap[(*it)->j][(*it)->i - 2]->ret();
-			if (str != "")win(str.c_str(), true); str = "";
-			if ((*it)->j > 1 && Map::objmap[(*it)->j - 1][(*it)->i]->find("text_is", 0))
-				str = Map::objmap[(*it)->j - 2][(*it)->i]->ret();
-			if (str != "")win(str.c_str(), true);
+			activelist->push_front(*it);
+			str = Map::objmap[(*it)->j - 1][(*it)->i]->ret();
+			if (str != "")
+				if (!flags::active) {
+					str2 = Map::objmap[(*it)->j+1][(*it)->i]->ret();
+					if (str2 != "")
+					{
+						if (!flags::active)
+							thisIsthis(str.c_str(), str2.c_str());
+						else
+							action(str, str2);
+						goto jmp1;
+					}
+					else
+						activelist->remove(*activelist->begin());
+				}
+				else
+					activelist->remove(*activelist->begin());
+			activelist->erase(activelist->begin());
 		}
-		if (active)
-		{
-			activelist->push_back(*it);
-			highlight();
-			active = false;
-		}
+		jmp1:
+		active = true;
+		highlight();
+		active = false;
 	}
 	forground();
 }
 
 void Game::thisIsthis(const char* name1, const char* name2)
 {
-	for (std::list<object*>::iterator it = world->me->begin(); it != world->me->end(); ++it)
+	for (std::list<object*>::iterator it = ob->me->begin(); it != ob->me->end(); ++it)
 	{
 		if ((*it)->name == name1)
 		{
@@ -150,14 +145,32 @@ void Game::erase(std::string str)
 			(*it)->isStop = false;
 			(*it)->ismov = false;
 			(*it)->isWin = false;
+			(*it)->isdefeat = false;
+			(*it)->issink = false;
 		}
 	}
 	me->clear();
 }
 
+void Game::destruct()
+{
+	for (std::list<object*>::iterator it = destroy->me->begin(); it != destroy->me->end(); ++it)
+	{
+		objmap[(*it)->j][(*it)->i]->me->remove(*it);
+		world->me->remove(*it);
+		direct->me->remove(*it);
+		activelist->remove(*it);
+		textis->me->remove(*it);
+		textatr->me->remove(*it);
+		textob->me->remove(*it);
+		ob->me->remove(*it);
+	}
+	destroy->me->clear();
+	checkLinks();
+}
+
 /*
 thisisthis
-rules from text_is
 stack for undo?
 make level selector?
 
