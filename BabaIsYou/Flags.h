@@ -13,4 +13,5 @@ public:
 	static bool win;
 	static bool defeat;
 	static bool sink;
+	static int colindex;
 };

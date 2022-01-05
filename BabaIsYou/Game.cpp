@@ -15,6 +15,7 @@ bool flags::erasefg = false;
 bool flags::win = false;
 bool flags::defeat = false;
 bool flags::sink = false;
+int flags::colindex = 0;
 std::list<object*> *Game::activelist = new std::list<object*>;
 List* Map::objmap[16][28] = { nullptr };
 List* Map::destroy=new List;
@@ -150,8 +151,6 @@ void Game::clear()
 	direct->me->clear();
 	activelist->clear();
 	textis->me->clear();
-	textatr->me->clear();
-	textob->me->clear();
 	ob->me->clear();
 	for (int i = 0; i < 16; i++)
 		for (int j = 0; j < 28; j++)

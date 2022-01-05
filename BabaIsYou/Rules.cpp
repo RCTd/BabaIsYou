@@ -5,7 +5,7 @@ void Game::forground()
 int i = 0;
 	for (std::list<object*>::iterator it = world->me->begin(), it1 = it; i < world->me->size() && it != world->me->end(); it=it1, i++)
 	{
- 		it1 = it; it1++;
+ 		it1++;
 		if ((*it)->isPush || (*it)->isYou)
 		{
 			world->me->push_back((*it));
@@ -123,15 +123,18 @@ void Game::Rules()
 
 void Game::thisIsthis(const char* name1, const char* name2)
 {
-	for (std::list<object*>::iterator it = ob->me->begin(); it != ob->me->end(); ++it)
+	for (std::list<object*>::iterator it = ob->me->begin(),it1=it; it != ob->me->end(); it=it1)
 	{
+		++it1;
 		if ((*it)->name == name1)
 		{
-			int x = (*it)->GetX(), y = (*it)->GetY();
-
-
+			int x = (*it)->i, y = (*it)->j,dir=(*it)->direction;
+			destroy->addObj(*it);
+			destruct();
+			Map::newobject(name2, x, y, dir, flags::colindex);
 		}
 	}
+	checkLinks();
 }
 
 void Game::erase(std::string str)
@@ -147,6 +150,7 @@ void Game::erase(std::string str)
 			(*it)->isWin = false;
 			(*it)->isdefeat = false;
 			(*it)->issink = false;
+			(*it)->isActive = false;
 		}
 	}
 	me->clear();
@@ -161,8 +165,6 @@ void Game::destruct()
 		direct->me->remove(*it);
 		activelist->remove(*it);
 		textis->me->remove(*it);
-		textatr->me->remove(*it);
-		textob->me->remove(*it);
 		ob->me->remove(*it);
 	}
 	destroy->me->clear();

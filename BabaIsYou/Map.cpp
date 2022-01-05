@@ -23,8 +23,6 @@ Map::Map()
 	world = new List();
 	direct = new List();
 	textis = new List();
-	textatr = new List();
-	textob = new List();
 	destroy = new List();
 	ob = new List();
 	src.x = 0;
@@ -44,25 +42,14 @@ Map::~Map()
 	world->me->clear();
 	direct->me->clear();
 	textis->me->clear();
-	textatr->me->clear();
-	textob->me->clear();
 	ob->me->clear();
 }
-bool nonatribute(std::string name)
-{
-	if (name != "text_you" && name != "text_word" && name != "text_win" && name != "text_weak" && name != "text_up" && name != "text_tele" && name != "text_swap"
-		&& name != "text_stop" && name != "text_sink" && name != "text_shut" && name != "text_shift" && name != "text_right" && name != "text_red" && name != "text_push" && name != "text_pull" && name != "text_open" && name != "text_is"
-		&& name != "text_move" && name != "text_more" && name != "text_melt" && name != "text_left" && name != "text_hot" && name != "text_float" && name != "text_fall" && name != "text_down" && name != "text_defeat" && name != "text_blue")
-		return true;
-	else
-		return false;
-}
+
 void Map::LoadMap(int lvl)
 {
-	std::string str="Lvl"+std::to_string(lvl)+".txt";
+	std::string str = "Lvl" + std::to_string(lvl) + ".txt";
 	std::ifstream in(str);
-	int arr[16][28];
-	bool flag = false;
+	int arr[16][28], col;
 	for (int i = 0; i < 16; i++)
 	{
 		for (int j = 0; j < 28; j++) {
@@ -76,8 +63,6 @@ void Map::LoadMap(int lvl)
 			in >> color[i][j];
 		}
 	}
-	SDL_Color* c;
-	object* obj;
 	int pos, dir;
 	for (int row = 0; row < 16; row++)
 	{
@@ -92,18 +77,41 @@ void Map::LoadMap(int lvl)
 				dir = atoi(str.substr(pos, 2).c_str());
 				pos--;
 				str = str.substr(0, pos);
-				if(str=="skull"|| str == "ghost" || str == "statue" || str == "belt" || str == "hand"  )
-					obj = new Walker(str.c_str(), column * 24, row * 24, dir);
-				else
-				if (str == "baba" || str == "keke" || str == "me")
-					obj = new object(str.c_str(), column * 24, row * 24, dir);
-				else
-					if (str == "brick" || str == "cliff" || str == "cloud" || str == "fence" || str == "grass" || str == "hedge" || str == "ice" || str == "wall" || str == "water")
-					{
-						obj = new Directed(str.c_str(), column * 24, row * 24, dir);
-						direct->addObj(obj);
-					}
-				else
+				col = color[row][column] - 1094 >= 0 ? (color[row][column] - 1094) : 21;
+				newobject(str, column, row, dir, col);
+			}
+		}
+	}
+}
+
+
+bool nonatribute(std::string name)
+{
+	if (name != "text_you" && name != "text_word" && name != "text_win" && name != "text_weak" && name != "text_up" && name != "text_tele" && name != "text_swap"
+		&& name != "text_stop" && name != "text_sink" && name != "text_shut" && name != "text_shift" && name != "text_right" && name != "text_red" && name != "text_push" && name != "text_pull" && name != "text_open" && name != "text_is"
+		&& name != "text_move" && name != "text_more" && name != "text_melt" && name != "text_left" && name != "text_hot" && name != "text_float" && name != "text_fall" && name != "text_down" && name != "text_defeat" && name != "text_blue")
+		return true;
+	else
+		return false;
+}
+
+void Map::newobject(std::string str,int column,int row,int dir,int col)
+{
+	SDL_Color* c;
+	object* obj;
+	bool flag = false;
+	if (str == "skull" || str == "ghost" || str == "statue" || str == "belt" || str == "hand")
+		obj = new Walker(str.c_str(), column * 24, row * 24, dir);
+	else
+		if (str == "baba" || str == "keke" || str == "me")
+			obj = new object(str.c_str(), column * 24, row * 24, dir);
+		else
+			if (str == "brick" || str == "cliff" || str == "cloud" || str == "fence" || str == "grass" || str == "hedge" || str == "ice" || str == "wall" || str == "water")
+			{
+				obj = new Directed(str.c_str(), column * 24, row * 24, dir);
+				direct->addObj(obj);
+			}
+			else
 				if (str.find("text") != std::string::npos)
 				{
 					obj = new Text(str.c_str(), column * 24, row * 24);
@@ -111,32 +119,23 @@ void Map::LoadMap(int lvl)
 				}
 				else
 					obj = new Thing(str.c_str(), column * 24, row * 24);
-				if (flag)
-				{
-					if (obj->name == "text_is")
-						textis->addObj(obj);
-					else
-						if (nonatribute(obj->name))
-						{
-							obj->isTextofObj = true;
-							textob->addObj(obj);
-						}
-						else
-						{
-							obj->isatribute = true;
-							textatr->addObj(obj);
-						}
-					flag = false;
-				}
-				else
-					ob->addObj(obj);
-				obj->col = color[row][column] - 1094 >= 0 ? (color[row][column] - 1094) : 21;
-				c = hex2sdl(hexcolor[obj->col]);
-				obj->changeObjColor(c->r, c->g, c->b);
-				objmap[row][column]->addObj(obj);
-				world->addObj(obj);
-			}
-		}
+	if (flag)
+	{
+		if (obj->name == "text_is")
+			textis->addObj(obj);
+		else
+			if (nonatribute(obj->name))
+				obj->isTextofObj = true;
+			else
+				obj->isatribute = true;
+		flag = false;
 	}
+	else
+		ob->addObj(obj);
+	obj->col = col;
+	c = hex2sdl(hexcolor[obj->col]);
+	obj->changeObjColor(c->r, c->g, c->b);
+	objmap[row][column]->addObj(obj);
+	world->addObj(obj);
 }
 
