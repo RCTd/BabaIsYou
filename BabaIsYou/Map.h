@@ -16,7 +16,6 @@ public:
 	static List* objmap[16][28];
 	static List* destroy;
 protected:
-	SDL_Rect src, dest;
 	List* world;
 	List* direct;
 	List* textis,*ob;

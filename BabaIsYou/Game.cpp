@@ -15,6 +15,8 @@ bool flags::erasefg = false;
 bool flags::win = false;
 bool flags::defeat = false;
 bool flags::sink = false;
+bool flags::restart = false;
+bool flags::hot = false;
 int flags::colindex = 0;
 std::list<object*> *Game::activelist = new std::list<object*>;
 List* Map::objmap[16][28] = { nullptr };
@@ -25,44 +27,32 @@ void Game::init(const char* Windowtitle, int x, int y, int w, int h)
 	{
 		window = SDL_CreateWindow(Windowtitle, x, y, w, h, SDL_WINDOW_SHOWN);
 		if (window == NULL)
-		{
 			SDL_Log("Window Create ERROR %s\n", SDL_GetError());
-		}
 		else
 		{
 			renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 			if (renderer == NULL)
-			{
 				SDL_Log("Renderer Create ERROR %s\n", SDL_GetError());
-			}
 			else
-			{
 				if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
-				{
 					SDL_Log("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
-				}
 				else
 					isRunning = true;
-			}
 		}
 	}
 	else
-	{
 		SDL_Log("INIT ERROR %s\n", SDL_GetError());
-	}
-	
 	gMusic = Mix_LoadMUS("Music/baba.ogg");
 	if (gMusic == NULL)
-	{
 		SDL_Log("Failed to load beat music!SDL_mixer Error : % s\n", Mix_GetError());
-	}
-	//Mix_PlayMusic(gMusic, -1);
+	Mix_PlayMusic(gMusic, -1);
 	LoadMap(lvl);
 	Rules();
 
 	checkLinks();
 	ismoving = false;
 	andmov = true;
+	srcRect.x = 0; srcRect.y = 0; srcRect.h = 24;
 }
 
 void Game::update()
@@ -74,8 +64,14 @@ void Game::render()
 {
 	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
 	SDL_RenderClear(renderer);
-
 	world->render();
+	if (flags::restart)
+	{
+		destRect.x = 12 * 24; destRect.y = 10; destRect.w = 60; destRect.h = 30; srcRect.w = 48;
+		SDL_RenderCopy(renderer, TextureManager::LoadTexture("Sprites/button_restart_0_1.png"), &srcRect, &destRect);
+		destRect.x += destRect.w + 5; destRect.y = 15; destRect.w = 20; destRect.h = 20; srcRect.w = 24;
+		SDL_RenderCopy(renderer, TextureManager::LoadTexture("Sprites/text_r_0_1.png"), &srcRect, &destRect);
+	}
 	SDL_RenderPresent(renderer);
 }
 void Game::events()
@@ -139,6 +135,10 @@ void Game::events()
 					checkLinks();
 					Rules();
 				}
+				if (me->empty())
+				{
+					flags::restart = true;
+				}
 			}
 		}
 		break;
@@ -162,6 +162,11 @@ void Game::clear()
 	flags::tex = false;
 	flags::active = false;
 	flags::erasefg = false;
+	flags::win = false;
+	flags::defeat = false;
+	flags::sink = false;
+	flags::hot = false;
+	flags::restart = false;
 }
 
 void Game::close()

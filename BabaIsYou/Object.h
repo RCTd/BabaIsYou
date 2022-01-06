@@ -9,7 +9,7 @@ private:
 	int x, y;
 	SDL_Texture* objTexture;
 	SDL_Rect srcRect, destRect;
-	int frame = 0, step = 0;
+	int frame , step = 0;
 	SDL_Color color;
 public:
 	int i, j,col=0;
@@ -25,6 +25,8 @@ public:
 	bool issink = false;
 	bool isTextofObj = false;
 	bool isatribute = false;
+	bool ishot = false;
+	bool ismelt = false;
 	void init();
 	void changeObjColor(int red, int green, int blue) {
 		color.r = red;

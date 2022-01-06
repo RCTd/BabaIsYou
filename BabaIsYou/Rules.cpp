@@ -48,6 +48,12 @@ void Game::action(std::string name,std::string name2)
 									(*it)->isYou = true;
 									addObj(*it);
 								}
+								else
+									if (name2 == "text_hot")
+										(*it)->ishot = true;
+									else
+										if (name2 == "text_melt")
+											(*it)->ismelt = true;
 		}
 	}
 }
@@ -160,6 +166,8 @@ void Game::erase(std::string str)
 			(*it)->isdefeat = false;
 			(*it)->issink = false;
 			(*it)->isActive = false;
+			(*it)->ismelt = false;
+			(*it)->ishot = false;
 		}
 	}
 	me->clear();

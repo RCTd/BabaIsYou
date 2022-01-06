@@ -138,6 +138,7 @@ bool object::move(int dir)
 			flags::erasefg = true;
 		flags::defeat = false;
 		flags::sink = false;
+		flags::hot = false;
 		switch (dir)
 		{
 		case 8:
@@ -185,7 +186,7 @@ bool object::move(int dir)
 				succes = false;
 			break;
 		}
-		if (flags::sink||(flags::defeat&&isYou))
+		if (flags::sink||(flags::defeat&&isYou)||(flags::hot && this->ismelt ))
 			Map::destroy->addObj(this);
 	}
 	else

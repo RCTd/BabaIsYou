@@ -64,6 +64,8 @@ bool List::find(const char* name,int sign)
 				flags::sink = true;
 				Map::destroy->addObj(*it);
 			}
+			if ((*it)->ishot)
+				flags::hot = true;
 		}else
 		if ((*it)->name == name)
 		{

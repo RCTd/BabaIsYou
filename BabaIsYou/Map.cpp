@@ -25,15 +25,6 @@ Map::Map()
 	textis = new List();
 	destroy = new List();
 	ob = new List();
-	src.x = 0;
-	src.y = 0;
-	src.w = 24;
-	src.h = 24;
-	dest.x = 0;
-	dest.y = 0;
-	dest.w = 24;
-	dest.h = 24;
-
 }
 
 Map::~Map()
