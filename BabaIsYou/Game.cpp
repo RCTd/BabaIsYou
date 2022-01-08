@@ -17,6 +17,7 @@ bool flags::defeat = false;
 bool flags::sink = false;
 bool flags::restart = false;
 bool flags::hot = false;
+bool flags::check = false;
 int flags::colindex = 0;
 std::list<object*> *Game::activelist = new std::list<object*>;
 List* Map::objmap[16][28] = { nullptr };
@@ -121,7 +122,12 @@ void Game::events()
 			if (ismoving)
 			{
 				if (!destroy->me->empty())
+				{
 					destruct();
+					if (flags::check)
+						checkLinks();
+					flags::check = false;
+				}
 				Rules();
 				if (flags::tex) {
 					checkLinks();

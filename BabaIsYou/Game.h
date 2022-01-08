@@ -13,7 +13,9 @@ private:
 public:
 	static std::list<object*> *activelist;
 	static SDL_Renderer* renderer;
-	Game() :window(NULL), event({ 0 }) {}
+	Game() :window(NULL), event({ 0 }) 
+		{ srcRect.x = 0; srcRect.y = 0; srcRect.h = 24; destRect.x = 12 * 24;
+		destRect.y = 10; destRect.w = 60; destRect.h = 30; srcRect.w = 48;}
 	void init(const char* Windowtitle, int x, int y, int w, int h);
 	void update();
 	void events();
@@ -22,6 +24,8 @@ public:
 	void close();
 	inline bool getRunning() { return isRunning; }
 	bool checkwin();
+
+	bool checkMelt();
 
 	void highlight();
 	void Rules();

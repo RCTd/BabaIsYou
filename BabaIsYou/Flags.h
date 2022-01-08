@@ -15,5 +15,6 @@ public:
 	static bool sink;
 	static bool hot;
 	static bool restart;
+	static bool check;
 	static int colindex;
 };

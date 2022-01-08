@@ -62,7 +62,7 @@ left:     16  17  18    19   15
 down:     24  25  26    27   23
 
 neighbor:
-	noone:	0
+	none:	0
 	right:	1
 	up:		2
 	up-r	3
@@ -95,7 +95,7 @@ with direction:
 	keke
 	me
 
-depends on others:
+depends on neighbours:
 	belt
 	brick
 	cliff

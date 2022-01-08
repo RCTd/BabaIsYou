@@ -53,7 +53,10 @@ void Game::action(std::string name,std::string name2)
 										(*it)->ishot = true;
 									else
 										if (name2 == "text_melt")
+										{
+											flags::hot = true;
 											(*it)->ismelt = true;
+										}
 		}
 	}
 }
@@ -65,6 +68,17 @@ bool Game::checkwin()
 		for (std::list<object*>::iterator it1 = objmap[(*it)->j][(*it)->i]->me->begin(); it1 != objmap[(*it)->j][(*it)->i]->me->end(); it1++)
 			if ((*it1)->isWin)
 				return true;
+	}
+	return false;
+}
+bool Game::checkMelt()
+{
+	for (std::list<object*>::iterator it = ob->me->begin();it != ob->me->end(); it++)
+	{
+		if ((*it)->ismelt)
+			for (std::list<object*>::iterator it1 = objmap[(*it)->j][(*it)->i]->me->begin(); it1 != objmap[(*it)->j][(*it)->i]->me->end(); it1++)
+				if ((*it1)->ishot)
+					destroy->addObj(*it);
 	}
 	return false;
 }
@@ -124,6 +138,16 @@ void Game::Rules()
 		highlight();
 		active = false;
 	}
+	if (flags::hot)
+	{
+		checkMelt();
+		flags::hot = false;
+	}
+	if (flags::check)
+	{
+		checkLinks();
+		flags::check = false;
+	}
 	forground();
 }
 
@@ -149,7 +173,6 @@ void Game::thisIsthis(const char* name1, const char* name2)
 			Map::newobject(name2, x, y, dir, flags::colindex);
 		}
 	}
-	checkLinks();
 }
 
 void Game::erase(std::string str)
@@ -175,8 +198,10 @@ void Game::erase(std::string str)
 
 void Game::destruct()
 {
+	flags::check = false;
 	for (std::list<object*>::iterator it = destroy->me->begin(); it != destroy->me->end(); ++it)
 	{
+		me->remove(*it);
 		objmap[(*it)->j][(*it)->i]->me->remove(*it);
 		world->me->remove(*it);
 		direct->me->remove(*it);
@@ -185,12 +210,11 @@ void Game::destruct()
 		ob->me->remove(*it);
 	}
 	destroy->me->clear();
-	checkLinks();
+	/*checkLinks();*/
+	flags::check = true;
 }
 
 /*
-
-hot and melt
 stack for undo?
 make level selector?
 
