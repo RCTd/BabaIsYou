@@ -135,7 +135,7 @@ void Game::events()
 				}
 				if (checkwin())
 				{
-					lvl >= 8 ? lvl = 1:lvl++;
+					lvl >= 11 ? lvl = 1:lvl++;
 					clear();
 					LoadMap(lvl);
 					checkLinks();

@@ -29,7 +29,6 @@ void List::update()
 }
 bool List::move(int dir)
 {
-	//baba and rock is you, rock is push problem
 	bool succes = true;
 	for (std::list<object*>::iterator it = me->begin(), it1 = it; (!me->empty()) && it != me->end(); it = it1)
 	{
@@ -40,7 +39,7 @@ bool List::move(int dir)
 			if((*it)->isPush&&flags::rec&&!(*it)->isYou)
 				succes &= (*it)->move(dir);
 			else
-			if ((*it)->isStop)
+			if ((*it)->isStop||((*it)->isPush&&(*it)->ismov))
 				succes = false;
 	}
 	return succes;

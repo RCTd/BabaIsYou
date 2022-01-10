@@ -26,7 +26,6 @@ public:
 	bool checkwin();
 
 	bool checkMelt();
-
 	void highlight();
 	void Rules();
 	void thisIsthis(const char* name1, const char* name2);

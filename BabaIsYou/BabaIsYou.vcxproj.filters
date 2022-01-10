@@ -93,5 +93,8 @@
     <Text Include="Lvl6.txt" />
     <Text Include="Lvl7.txt" />
     <Text Include="Lvl8.txt" />
+    <Text Include="Lvl9.txt" />
+    <Text Include="Lvl10.txt" />
+    <Text Include="Lvl11.txt" />
   </ItemGroup>
 </Project>
