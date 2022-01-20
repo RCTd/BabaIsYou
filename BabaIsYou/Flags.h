@@ -3,6 +3,7 @@
 class flags
 {
 public:
+	static bool runs;
 	static bool andmov;
 	static bool ismoving;
 	static bool remove;

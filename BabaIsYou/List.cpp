@@ -7,6 +7,7 @@ List::List()
 List::~List()
 {
 	me->clear();
+	me->~list();
 }
 void List::addObj(object* o)
 {

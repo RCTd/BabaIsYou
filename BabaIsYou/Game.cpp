@@ -5,6 +5,7 @@
 
 object* keke;
 SDL_Renderer* Game::renderer = nullptr;
+bool flags::runs= false;
 bool flags::ismoving = false;
 bool flags::andmov = true;
 bool flags::remove = false;
@@ -47,7 +48,9 @@ void Game::init(const char* Windowtitle, int x, int y, int w, int h)
 	if (gMusic == NULL)
 		SDL_Log("Failed to load beat music!SDL_mixer Error : % s\n", Mix_GetError());
 	Mix_PlayMusic(gMusic, -1);
-	LoadMap(lvl);
+
+	if (LoadMap(lvl))
+		isRunning = false;
 	Rules();
 
 	checkLinks();
@@ -110,7 +113,8 @@ void Game::events()
 				break;
 			case SDLK_r:
 				clear();
-				LoadMap(lvl);
+				if (LoadMap(lvl))
+					isRunning = false;
 				checkLinks();
 				Rules();
 			}
@@ -137,7 +141,8 @@ void Game::events()
 				{
 					lvl >= 11 ? lvl = 1:lvl++;
 					clear();
-					LoadMap(lvl);
+					if (LoadMap(lvl))
+						isRunning = false;
 					checkLinks();
 					Rules();
 				}
@@ -152,15 +157,23 @@ void Game::events()
 }
 void Game::clear()
 {
+	for (std::list<object*>::iterator it = world->me->begin(); it != world->me->end(); ++it)
+	{
+		delete(*it);
+	}
+	activelist->clear();
 	Map::List::me->clear();
 	world->me->clear();
 	direct->me->clear();
-	activelist->clear();
 	textis->me->clear();
-	ob->me->clear();
+	ob->me-> clear();
+	Map::colindexlist.clear();
+	Map::colindexname.clear();
 	for (int i = 0; i < 16; i++)
 		for (int j = 0; j < 28; j++)
+		{
 			objmap[i][j]->me->clear();
+		}
 	flags::ismoving = false;
 	flags::andmov = true;
 	flags::remove = false;
@@ -220,4 +233,6 @@ void Game::highlight()
 				activelist->erase(it);
 			}
 	}
+	c = nullptr;
+	delete(c);
 }

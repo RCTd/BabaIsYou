@@ -12,7 +12,7 @@ public:
 
 	void newobject(std::string str, int column, int row, int dir,int col);
 
-	void LoadMap(int lvl);
+	bool LoadMap(int lvl);
 	static List* objmap[16][28];
 	static List* destroy;
 protected:

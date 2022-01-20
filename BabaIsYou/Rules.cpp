@@ -24,9 +24,9 @@ void Game::checkLinks()
 void Game::action(std::string name,std::string name2)
 {
 	flags::active = false;
-	for (std::list<object*>::iterator it = ob->me->begin(),it1=it;it != ob->me->end(); it=it1)
+	for (std::list<object*>::iterator it = ob->me->begin()/*,it1=it*/;it != ob->me->end(); it++)
 	{
-		++it1;
+		//++it1;
 		if ((*it)->name == name)
 		{
 			if (name2 == "text_push")
@@ -199,15 +199,18 @@ void Game::erase(std::string str)
 void Game::destruct()
 {
 	flags::check = false;
-	for (std::list<object*>::iterator it = destroy->me->begin(); it != destroy->me->end(); ++it)
+	for (std::list<object*>::iterator it = destroy->me->begin(),it1=it; it != destroy->me->end(); it=it1)
 	{
-		me->remove(*it);
+		it1++;
 		objmap[(*it)->j][(*it)->i]->me->remove(*it);
+		me->remove(*it);
+		
 		world->me->remove(*it);
 		direct->me->remove(*it);
 		activelist->remove(*it);
 		textis->me->remove(*it);
 		ob->me->remove(*it);
+		(*it)->~object();
 	}
 	destroy->me->clear();
 	/*checkLinks();*/

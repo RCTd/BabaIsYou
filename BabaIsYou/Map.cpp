@@ -36,43 +36,53 @@ Map::~Map()
 	ob->me->clear();
 }
 
-void Map::LoadMap(int lvl)
+bool Map::LoadMap(int lvl)
 {
-	std::string str = "Lvl" + std::to_string(lvl) + ".txt";
-	std::ifstream in(str);
-	int arr[16][28], col;
-	for (int i = 0; i < 16; i++)
-	{
-		for (int j = 0; j < 28; j++) {
-			in >> arr[i][j];
-		}
-	}
-	int color[16][28];
-	for (int i = 0; i < 16; i++)
-	{
-		for (int j = 0; j < 28; j++) {
-			in >> color[i][j];
-		}
-	}
-	int pos, dir;
-	for (int row = 0; row < 16; row++)
-	{
-		for (int column = 0; column < 28; column++)
+	try {
+		std::string str = "Lvl" + std::to_string(lvl) + ".txt";
+		std::ifstream in(str);
+		int arr[16][28], col;
+		for (int i = 0; i < 16; i++)
 		{
-			if (!objmap[row][column])
-				objmap[row][column] = new List();
-			if (arr[row][column])
+			for (int j = 0; j < 28; j++) {
+				in >> arr[i][j];
+			}
+		}
+		int color[16][28];
+		for (int i = 0; i < 16; i++)
+		{
+			for (int j = 0; j < 28; j++) {
+				in >> color[i][j];
+			}
+		}
+		int pos, dir;
+		for (int row = 0; row < 16; row++)
+		{
+			for (int column = 0; column < 28; column++)
 			{
-				str = nameobj[arr[row][column]];
-				pos = str.find(".") + 1;
-				dir = atoi(str.substr(pos, 2).c_str());
-				pos--;
-				str = str.substr(0, pos);
-				col = color[row][column] - 1094 >= 0 ? (color[row][column] - 1094) : 21;
-				newobject(str, column, row, dir, col);
+				if (!objmap[row][column])
+					objmap[row][column] = new List();
+				if (arr[row][column])
+				{
+					if (arr[row][column] > 1091 || arr[row][column] < 0)
+						throw SDL_GetError();
+					str = nameobj[arr[row][column]];
+					pos = str.find(".") + 1;
+					dir = atoi(str.substr(pos, 2).c_str());
+					pos--;
+					str = str.substr(0, pos);
+					col = color[row][column] - 1094 >= 0 ? (color[row][column] - 1094) : 21;
+					newobject(str, column, row, dir, col);
+				}
 			}
 		}
 	}
+	catch (const char* error)
+	{
+		SDL_Log("Eroare in creare lvl %s", error);
+		return 1;
+	}
+	return 0;
 }
 
 
@@ -134,5 +144,9 @@ void Map::newobject(std::string str,int column,int row,int dir,int col)
 		colindexlist.push_back(obj->col);
 		ob->addObj(obj);
 	}
+	c=nullptr;
+	obj = nullptr;
+	delete(c);
+	delete(obj);
 }
 

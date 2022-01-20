@@ -78,8 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\c.c++\SDL2_mixer-2.0.4\include;D:\c.c++\SDL2_image-2.0.5\include;D:\c.c++\SDL2-2.0.16\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\c.c++\SDL2_mixer-2.0.4\lib\x64;D:\c.c++\SDL2_image-2.0.5\lib\x64;D:\c.c++\SDL2-2.0.16\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\rafyt\source\repos\BabaIsYou\BabaIsYou\SDL2-2.0.16\include;C:\Users\rafyt\source\repos\BabaIsYou\BabaIsYou\SDL2_mixer-2.0.4\include;C:\Users\rafyt\source\repos\BabaIsYou\BabaIsYou\SDL2_image-2.0.5\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\rafyt\source\repos\BabaIsYou\BabaIsYou\SDL2-2.0.16\lib\x64;C:\Users\rafyt\source\repos\BabaIsYou\BabaIsYou\SDL2_mixer-2.0.4\lib\x64;C:\Users\rafyt\source\repos\BabaIsYou\BabaIsYou\SDL2_image-2.0.5\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
